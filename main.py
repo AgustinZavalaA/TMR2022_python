@@ -4,7 +4,7 @@ import time
 
 
 def main():
-    arduino = ArduinoSerialComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
     motors = Motors()
 
     # modo obtenido del arduino, puede ser de 0 a 7
@@ -39,25 +39,25 @@ def main():
                 action_done = True
 
 
-def move_arm(arduino: ArduinoSerialComm) -> None:
+def move_arm(arduino: ArduinoComm) -> None:
     arduino.communicate(data="2")
     time.sleep(2)
     pass
 
 
-def move_tray(arduino: ArduinoSerialComm) -> None:
+def move_tray(arduino: ArduinoComm) -> None:
     arduino.communicate(data="3")
     time.sleep(2)
     pass
 
 
-def move_claw(arduino: ArduinoSerialComm) -> None:
+def move_claw(arduino: ArduinoComm) -> None:
     arduino.communicate(data="4")
     time.sleep(3)
     pass
 
 
-def pick_up_can(arduino: ArduinoSerialComm, motors: Motors) -> None:
+def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     # abre la garra
     move_claw(arduino)
     # baja el brazo
