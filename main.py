@@ -20,6 +20,9 @@ def main():
 
         if mode == 7:
             print("Exiting out")
+            arduino.close()
+            motors.stop()
+            motors.disable()
             break
 
         if mode != last_mode:
