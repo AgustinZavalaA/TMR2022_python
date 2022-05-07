@@ -1,0 +1,76 @@
+from Motors import Motors
+from ArduinoSerialComm import ArduinoSerialComm
+import time
+
+
+def main():
+    arduino = ArduinoSerialComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    motors = Motors()
+
+    # modo obtenido del arduino, puede ser de 0 a 7
+    mode = arduino.communicate(data="1")[1]
+    # variable para mantener el estado del modo
+    action_done = False
+    last_mode = mode
+
+    while True:
+        change, mode, ultrasonic_data = arduino.communicate(data="1")
+
+        if mode == 7:
+            break
+
+        if mode != last_mode:
+            last_mode = mode
+            action_done = False
+
+        if mode == 1:
+            if not action_done:
+                move_arm(arduino)
+                action_done = True
+
+        if mode == 2:
+            if not action_done:
+                move_tray(arduino)
+                action_done = True
+
+        if mode == 3:
+            if not action_done:
+                pick_up_can(arduino, motors)
+                action_done = True
+
+
+def move_arm(arduino: ArduinoSerialComm) -> None:
+    arduino.communicate(data="2")
+    time.sleep(2)
+    pass
+
+
+def move_tray(arduino: ArduinoSerialComm) -> None:
+    arduino.communicate(data="3")
+    time.sleep(2)
+    pass
+
+
+def move_claw(arduino: ArduinoSerialComm) -> None:
+    arduino.communicate(data="4")
+    time.sleep(3)
+    pass
+
+
+def pick_up_can(arduino: ArduinoSerialComm, motors: Motors) -> None:
+    # abre la garra
+    move_claw(arduino)
+    # baja el brazo
+    move_arm(arduino)
+    # se acerca a la lata
+    motors.move(True, 100, True)
+    motors.move(False, 100, True)
+    time.sleep(1.2)
+    # cierra la garra
+    move_claw(arduino)
+    # sube el brazo
+    move_arm(arduino)
+
+
+if __name__ == "__main__":
+    main()
