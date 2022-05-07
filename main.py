@@ -1,5 +1,5 @@
 from Motors import Motors
-from ArduinoSerialComm import ArduinoSerialComm
+from ArduinoSerialComm import ArduinoComm
 import time
 
 
