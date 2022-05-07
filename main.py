@@ -34,8 +34,13 @@ def main():
             if not action_done:
                 move_tray(arduino)
                 action_done = True
-
+                
         if mode == 3:
+            if not action_done:
+                move_claw(arduino)
+                action_done = True
+
+        if mode == 4:
             if not action_done:
                 pick_up_can(arduino, motors)
                 action_done = True
