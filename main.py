@@ -19,11 +19,15 @@ def main():
         change, mode, ultrasonic_data = arduino.communicate(data="1")
 
         if mode == 7:
+            print("Exiting out")
             break
 
         if mode != last_mode:
             last_mode = mode
             action_done = False
+
+        if mode == 0:
+            continue
 
         if mode == 1:
             if not action_done:
@@ -34,7 +38,7 @@ def main():
             if not action_done:
                 move_tray(arduino)
                 action_done = True
-                
+
         if mode == 3:
             if not action_done:
                 move_claw(arduino)
@@ -77,6 +81,8 @@ def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     move_claw(arduino)
     # sube el brazo
     move_arm(arduino)
+    # apagar los motores
+    motors.stop()
 
 
 if __name__ == "__main__":
