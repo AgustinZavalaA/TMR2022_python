@@ -6,6 +6,8 @@ import time
 def main():
     arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
     motors = Motors()
+    time.sleep(2)
+    print("Ready to use")
 
     # modo obtenido del arduino, puede ser de 0 a 7
     mode = arduino.communicate(data="1")[1]
