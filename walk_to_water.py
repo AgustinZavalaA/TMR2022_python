@@ -8,7 +8,7 @@ import time
 
 
 def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
-    motors = Motors()
+    # motors = Motors()
     velocitiy = 50
 
     cap = cv2.VideoCapture(0)
@@ -42,9 +42,9 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
             cv2.imshow("frame", frame)
             cv2.imshow("masked_water", masked_water)
 
-            # if cv2.waitKey(1) & 0xFF == ord("q"):
-            #     print("Exiting out")
-            #     break
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                print("Exiting out")
+                break
     except KeyboardInterrupt:
         # motors.stop()
         # motors.disable()
