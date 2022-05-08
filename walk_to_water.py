@@ -7,8 +7,10 @@ from utils.ArduinoSerialComm import ArduinoComm
 import time
 
 
-def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
-    # motors = Motors()
+def main(
+    hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int], visible: bool = False
+):
+    motors = Motors()
     velocitiy = 50
 
     cap = cv2.VideoCapture(0)
@@ -33,22 +35,23 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
                 np.sum(masked_water)
                 > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold
             ):
-                # motors.stop()
+                motors.stop()
                 print("Water detected")
             else:
-                # motors.move(True, velocitiy, True)
-                # motors.move(False, velocitiy, True)
+                motors.move(True, velocitiy, True)
+                motors.move(False, velocitiy, True)
                 print("No water detected")
 
-            cv2.imshow("frame", frame)
-            cv2.imshow("masked_water", masked_water)
+            if visible:
+                cv2.imshow("frame", frame)
+                cv2.imshow("masked_water", masked_water)
 
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                print("Exiting out")
-                break
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    print("Exiting out")
+                    break
     except KeyboardInterrupt:
-        # motors.stop()
-        # motors.disable()
+        motors.stop()
+        motors.disable()
         print("Ctrl+C pressed. Exiting...")
 
 
@@ -56,4 +59,5 @@ if __name__ == "__main__":
     main(
         hsv_min=(85, 0, 38),
         hsv_max=(152, 133, 125),
+        visible=False,
     )
