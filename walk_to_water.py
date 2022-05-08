@@ -9,6 +9,7 @@ import time
 
 def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
     motors = Motors()
+    velocitiy = 30
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
@@ -34,8 +35,8 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
                 motors.stop()
                 print("Water detected")
             else:
-                motors.move(True, 15, True)
-                motors.move(False, 15, True)
+                motors.move(True, velocitiy, True)
+                motors.move(False, velocitiy, True)
                 print("No water detected")
 
             # cv2.imshow("frame", frame)
@@ -46,6 +47,7 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
             #     break
     except KeyboardInterrupt:
         motors.stop()
+        motors.disable()
         print("Ctrl+C pressed. Exiting...")
 
 
