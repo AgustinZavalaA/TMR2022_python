@@ -32,22 +32,22 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
                 np.sum(masked_water)
                 > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold
             ):
-                motors.stop()
+                # motors.stop()
                 print("Water detected")
             else:
-                motors.move(True, velocitiy, True)
-                motors.move(False, velocitiy, True)
+                # motors.move(True, velocitiy, True)
+                # motors.move(False, velocitiy, True)
                 print("No water detected")
 
-            # cv2.imshow("frame", frame)
-            # cv2.imshow("masked_water", masked_water)
+            cv2.imshow("frame", frame)
+            cv2.imshow("masked_water", masked_water)
 
             # if cv2.waitKey(1) & 0xFF == ord("q"):
             #     print("Exiting out")
             #     break
     except KeyboardInterrupt:
-        motors.stop()
-        motors.disable()
+        # motors.stop()
+        # motors.disable()
         print("Ctrl+C pressed. Exiting...")
 
 
