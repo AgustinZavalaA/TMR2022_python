@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-from utils.Motors import Motors
-from utils.ArduinoSerialComm import ArduinoComm
+from modules.Motors import Motors
+from modules.ArduinoSerialComm import ArduinoComm
 
 import time
 
