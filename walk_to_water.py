@@ -30,8 +30,8 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
 
             threshold = 0.8
             print(
-                np.sum(masked_water)
-                > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold,
+                np.sum(masked_water),
+                masked_water.shape[0] * masked_water.shape[1] * 255 * threshold,
                 end="   ",
             )
             if (
