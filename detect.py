@@ -1,18 +1,3 @@
-# Copyright 2021 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-"""Main script to run the object detection routine."""
-import argparse
 import sys
 import time
 
@@ -21,6 +6,15 @@ from camera_utils.object_detector import ObjectDetector
 from camera_utils.object_detector import ObjectDetectorOptions
 from camera_utils import utils
 
+from typing import NamedTuple
+
+
+class my_detection(NamedTuple):
+    category: str
+    score: float
+    centroid: tuple[int, int]
+    area: int
+
 
 def run(
     model: str,
@@ -28,6 +22,7 @@ def run(
     width: int,
     height: int,
     num_threads: int,
+    score_threshold: float,
 ) -> None:
     """Continuously run inference on images acquired from the camera.
 
@@ -38,11 +33,6 @@ def run(
       height: The height of the frame captured from the camera.
       num_threads: The number of CPU threads to run the model.
     """
-
-    # Variables to calculate FPS
-    # counter, fps = 0, 0
-    # start_time = time.time()
-
     # Start capturing video input from the camera
     cap = cv2.VideoCapture(camera_id)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -59,7 +49,7 @@ def run(
     # Initialize the object detection model
     options = ObjectDetectorOptions(
         num_threads=num_threads,
-        score_threshold=0.6,
+        score_threshold=score_threshold,
         max_results=3,
     )
     detector = ObjectDetector(model_path=model, options=options)
@@ -73,40 +63,33 @@ def run(
                     "ERROR: Unable to read from webcam. Please verify your webcam settings."
                 )
 
-            # counter += 1
             image = cv2.flip(image, 1)
 
             # Run object detection estimation using the model.
             rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             detections = detector.detect(rgb_image)
-            print(detections)
+            my_detections = []
+            for det in detections:
+                w = det.bounding_box.right - det.bounding_box.left
+                h = det.bounding_box.bottom - det.bounding_box.top
+                my_detections.append(
+                    my_detection(
+                        det.categories[0].label,
+                        det.categories[0].label,
+                        (w // 2, h // 2),
+                        w * h,
+                    )
+                )
+            print(my_detections)
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
-
-            # Calculate the FPS
-            # if counter % fps_avg_frame_count == 0:
-            #     end_time = time.time()
-            #     fps = fps_avg_frame_count / (end_time - start_time)
-            #     start_time = time.time()
-
-            # Show the FPS
-            # fps_text = "FPS = {:.1f}".format(fps)
-            # text_location = (left_margin, row_size)
-            # cv2.putText(
-            #     image,
-            #     fps_text,
-            #     text_location,
-            #     cv2.FONT_HERSHEY_PLAIN,
-            #     font_size,
-            #     text_color,
-            #     font_thickness,
-            # )
 
             # Stop the program if the ESC key is pressed.
             # if cv2.waitKey(1) == 27:
             #     break
             # cv2.imshow("object_detector", image)
+
     except KeyboardInterrupt:
         print("Program interrupted by user.")
         cap.release()
@@ -121,7 +104,7 @@ def main():
         "--model",
         help="Path of the object detection model.",
         required=False,
-        default="efficientdet_lite0.tflite",
+        default="tf_models/limpiaplayas2022v3.tflite",
     )
     parser.add_argument(
         "--cameraId", help="Id of camera.", required=False, type=int, default=0
