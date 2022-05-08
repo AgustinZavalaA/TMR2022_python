@@ -79,6 +79,7 @@ def run(
             # Run object detection estimation using the model.
             rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             detections = detector.detect(rgb_image)
+            print(detections)
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
