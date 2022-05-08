@@ -9,7 +9,7 @@ import time
 
 def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
     motors = Motors()
-    velocitiy = 30
+    velocitiy = 50
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
