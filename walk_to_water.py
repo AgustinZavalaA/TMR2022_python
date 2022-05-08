@@ -27,7 +27,13 @@ def main(hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int]):
             masked_water = cv2.inRange(water_roi, hsv_min, hsv_max)
 
             # print if water is detected, majority of the pixels are 1
+
             threshold = 0.8
+            print(
+                np.sum(masked_water)
+                > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold,
+                end="   ",
+            )
             if (
                 np.sum(masked_water)
                 > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold
