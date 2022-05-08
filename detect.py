@@ -17,9 +17,9 @@ import sys
 import time
 
 import cv2
-from object_detector import ObjectDetector
-from object_detector import ObjectDetectorOptions
-import utils
+from camera_utils.object_detector import ObjectDetector
+from camera_utils.object_detector import ObjectDetectorOptions
+from camera_utils import utils
 
 
 def run(
