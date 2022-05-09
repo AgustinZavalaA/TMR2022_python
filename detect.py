@@ -106,7 +106,7 @@ def run(
                 # se toma el 25% de la distancia del objeto
                 # vel = int(abs(distance_from_center) * 0.30)
                 vel = map_range(
-                    abs(distance_from_center), 0, image.shape[1] // 2, 15, 65
+                    abs(distance_from_center), 0, image.shape[1] // 2, 20, 50
                 )
                 print(vel)
                 # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
