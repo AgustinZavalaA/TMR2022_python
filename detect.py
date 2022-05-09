@@ -76,7 +76,7 @@ def run(
                 my_detections.append(
                     my_detection(
                         det.categories[0].label,
-                        det.categories[0].label,
+                        det.categories[0].score,
                         (w // 2, h // 2),
                         w * h,
                     )
