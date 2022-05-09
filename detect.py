@@ -103,16 +103,14 @@ def run(
                 if abs(distance_from_center) > image.shape[1] // 2 * 0.1:
                     motors.stop()
 
+                # se toma el 25% de la distancia del objeto
+                vel = int(abs(distance_from_center) * 0.25)
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 if distance_from_center < 0:
-                    # se toma el 10% de la distancia del objeto
-                    vel = int(-distance_from_center * 0.1)
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
                 # si el objeto esta a la izquierda, se mueve a la derecha
                 if distance_from_center > 0:
-                    # se toma el 10% de la distancia del objeto
-                    vel = int(distance_from_center * 0.1)
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
 
