@@ -131,6 +131,13 @@ def main():
         type=int,
         default=4,
     )
+    parser.add_argument(
+        "--scoreThreshold",
+        help="threshold for object detection",
+        required=False,
+        type=float,
+        default=0.6,
+    )
     args = parser.parse_args()
 
     run(
@@ -139,6 +146,7 @@ def main():
         args.frameWidth,
         args.frameHeight,
         int(args.numThreads),
+        float(args.scoreThreshold),
     )
 
 
