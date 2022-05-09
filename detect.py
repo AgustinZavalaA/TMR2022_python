@@ -1,5 +1,6 @@
 import sys
 import time
+import argparse
 
 import cv2
 from camera_utils.object_detector import ObjectDetector
