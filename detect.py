@@ -122,8 +122,8 @@ def run(
                 # si el objeto esta a la izquierda, se mueve a la derecha
                 if distance_from_center > 0:
                     print("derecha")
-                    motors.move(True, vel, False)
-                    motors.move(False, vel, True)
+                    motors.move(True, vel, True)
+                    motors.move(False, vel, False)
             else:
                 print("No object detected")
                 motors.stop()
