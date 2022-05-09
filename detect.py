@@ -77,7 +77,7 @@ def run(
                     my_detection(
                         det.categories[0].label,
                         det.categories[0].score,
-                        (w // 2, h // 2),
+                        (det.bounding_box.left + w, det.bounding_box.top + h),
                         w * h,
                     )
                 )
@@ -92,7 +92,6 @@ def run(
                 if selected_can.label != "black_can":
                     continue
 
-                print("I see a {}".format(selected_can.label))
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(distance_from_center)
 
