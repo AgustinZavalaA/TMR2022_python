@@ -104,7 +104,7 @@ def run(
                     motors.stop()
 
                 # se toma el 25% de la distancia del objeto
-                vel = int(abs(distance_from_center) * 0.50)
+                vel = int(abs(distance_from_center) * 0.30)
                 if vel > 100:
                     vel = 100
                 # si el objeto esta a la derecha, se mueve a la izquierda
