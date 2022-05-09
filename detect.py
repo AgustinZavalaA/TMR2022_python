@@ -110,8 +110,9 @@ def run(
                 )
                 if vel > 100:
                     vel = 100
-                # si el objeto esta en la mitad de la imagen (dentro del 30%), no hace nada
-                if abs(distance_from_center) > image.shape[1] // 2 * 0.3:
+                # si el objeto esta en la mitad de la imagen (dentro del 10%), no hace nada
+                if abs(distance_from_center) > image.shape[1] // 2 * 0.1:
+                    print("stopped")
                     motors.stop()
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 elif distance_from_center < 0:
