@@ -86,10 +86,10 @@ def run(
 
             if len(my_detections) > 0:
                 selected_can = my_detections.pop(0)
-                while my_detections and selected_can.label != "can":
+                while my_detections and selected_can.label != "black_can":
                     selected_can = my_detections.pop(0)
 
-                if selected_can.label != "can":
+                if selected_can.label != "black_can":
                     continue
 
                 print("I see a {}".format(selected_can.label))
