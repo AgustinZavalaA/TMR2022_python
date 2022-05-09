@@ -11,7 +11,7 @@ from typing import NamedTuple
 
 
 class my_detection(NamedTuple):
-    category: str
+    label: str
     score: float
     centroid: tuple[int, int]
     area: int
@@ -81,7 +81,18 @@ def run(
                         w * h,
                     )
                 )
-            print(my_detections)
+            my_detections = sorted(my_detections, key=lambda x: x.score, reverse=True)
+
+            if len(my_detections) > 0:
+                print("I see a {}".format(selected_can.label))
+                selected_can = my_detections.pop(0)
+                while my_detections and selected_can.label != "can":
+                    selected_can = my_detections.pop(0)
+
+                distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
+                print(distance_from_center)
+
+            # print(my_detections)
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
