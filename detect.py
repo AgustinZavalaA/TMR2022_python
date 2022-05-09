@@ -6,6 +6,7 @@ import cv2
 from camera_utils.object_detector import ObjectDetector
 from camera_utils.object_detector import ObjectDetectorOptions
 from camera_utils import utils
+from modules.Motors import Motors
 
 from typing import NamedTuple
 
@@ -34,6 +35,9 @@ def run(
       height: The height of the frame captured from the camera.
       num_threads: The number of CPU threads to run the model.
     """
+    # Start the motors
+    motors = Motors()
+
     # Start capturing video input from the camera
     cap = cv2.VideoCapture(camera_id)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
@@ -95,6 +99,23 @@ def run(
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(distance_from_center)
 
+                # si el objeto esta en la mitad de la imagen (dentro del 10%), no hace nada
+                if abs(distance_from_center) > image.shape[1] // 2 * 0.1:
+                    motors.stop()
+
+                # si el objeto esta a la derecha, se mueve a la izquierda
+                if distance_from_center < 0:
+                    # se toma el 10% de la distancia del objeto
+                    vel = int(-distance_from_center * 0.1)
+                    motors.move(True, vel, False)
+                    motors.move(False, vel, True)
+                # si el objeto esta a la izquierda, se mueve a la derecha
+                if distance_from_center > 0:
+                    # se toma el 10% de la distancia del objeto
+                    vel = int(distance_from_center * 0.1)
+                    motors.move(True, vel, False)
+                    motors.move(False, vel, True)
+
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
 
@@ -105,6 +126,8 @@ def run(
 
     except KeyboardInterrupt:
         print("Program interrupted by user.")
+        motors.stop()
+        motors.disable()
         cap.release()
         cv2.destroyAllWindows()
 
