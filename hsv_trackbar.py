@@ -1,7 +1,7 @@
 # import opencv and numpy
 import cv2
 import numpy as np
-import glob
+import os
 
 # trackbar callback fucntion to update HSV value
 def callback(x):
@@ -38,44 +38,50 @@ cv2.createTrackbar("high S", "controls", 255, 255, callback)
 cv2.createTrackbar("low V", "controls", 0, 255, callback)
 cv2.createTrackbar("high V", "controls", 255, 255, callback)
 
-cap = cv2.VideoCapture(0)
+
+def main():
+    images = []
+    for filename in os.listdir("fotos/"):
+        img = cv2.imread("fotos/" + filename)
+        img = cv2.resize(img, (1920 // 5, 1080 // 5))
+        images.append(img)
+
+    # suponiendo que son 16 fotos
+    vstack = []
+    for i in range(4):
+        vstack.append(
+            np.vstack(
+                [images[i * 4], images[i * 4 + 1], images[i * 4 + 2], images[i * 4 + 3]]
+            )
+        )
+
+    collage = np.hstack([v for v in vstack])
+
+    cv2.imshow("collage", collage)
+
+    while 1:
+        img = collage
+        # convert sourece image to HSC color mode
+        hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+        hsv_low = np.array([H_low, S_low, V_low], np.uint8)
+        hsv_high = np.array([H_high, S_high, V_high], np.uint8)
+
+        # making mask for hsv range
+        mask = cv2.inRange(hsv, hsv_low, hsv_high)
+        # masking HSV value selected color becomes black
+        res = cv2.bitwise_and(img, img, mask=mask)
+
+        # show image
+        cv2.imshow("mask", mask)
+
+        # waitfor the user to press escape and break the while loop
+        if cv2.waitKey(1) & 0xFF == ord("q"):
+            break
+
+    # destroys all window
+    cv2.destroyAllWindows()
 
 
-while 1:
-    # read source image
-    ret, img = cap.read()
-    if not ret:
-        print("failed to capture image")
-        break
-    # convert sourece image to HSC color mode
-    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-    #
-    hsv_low = np.array([H_low, S_low, V_low], np.uint8)
-    hsv_high = np.array([H_high, S_high, V_high], np.uint8)
-
-    # making mask for hsv range
-    mask = cv2.inRange(hsv, hsv_low, hsv_high)
-    print(mask)
-    # masking HSV value selected color becomes black
-    res = cv2.bitwise_and(img, img, mask=mask)
-
-    # show image
-    #cv2.imshow("mask", mask)
-    #cv2.imshow("res", res)
-
-    # waitfor the user to press escape and break the while loop
-    k = cv2.waitKey(1) & 0xFF
-    if k == 27:
-        break
-
-#for cicle to open all floder files
-
-cv_img = []
-for img in glob.glob("/fotos/*.png"):
-    n= cv2.imread(img)
-    cv_img.append(n)
-
-cap.release()
-# destroys all window
-cv2.destroyAllWindows()
+if __name__ == "__main__":
+    main()
