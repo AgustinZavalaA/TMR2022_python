@@ -18,6 +18,10 @@ class my_detection(NamedTuple):
     area: int
 
 
+def map_range(x, in_min, in_max, out_min, out_max):
+    return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
+
+
 def run(
     model: str,
     camera_id: int,
@@ -99,12 +103,15 @@ def run(
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(distance_from_center)
 
-                # si el objeto esta en la mitad de la imagen (dentro del 10%), no hace nada
-                if abs(distance_from_center) > image.shape[1] // 2 * 0.1:
+                # si el objeto esta en la mitad de la imagen (dentro del 30%), no hace nada
+                if abs(distance_from_center) > image.shape[1] // 2 * 0.3:
                     motors.stop()
 
                 # se toma el 25% de la distancia del objeto
-                vel = int(abs(distance_from_center) * 0.30)
+                # vel = int(abs(distance_from_center) * 0.30)
+                vel = map_range(
+                    abs(distance_from_center), 0, image.shape[1] // 2, 0, 100
+                )
                 if vel > 100:
                     vel = 100
                 # si el objeto esta a la derecha, se mueve a la izquierda
