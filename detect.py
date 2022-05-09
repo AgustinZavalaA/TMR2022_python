@@ -101,15 +101,14 @@ def run(
                     continue
 
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
-                print(distance_from_center, end="\n\n")
+                print(distance_from_center, end=" ")
 
                 # se toma el 25% de la distancia del objeto
                 # vel = int(abs(distance_from_center) * 0.30)
                 vel = map_range(
-                    abs(distance_from_center), 0, image.shape[1] // 2, 0, 70
+                    abs(distance_from_center), 0, image.shape[1] // 2, 0, 65
                 )
-                if vel > 100:
-                    vel = 100
+                print(vel)
                 # si el objeto esta en la mitad de la imagen (dentro del 10%), no hace nada
                 if abs(distance_from_center) < image.shape[1] // 2 * 0.1:
                     print("stopped")
@@ -127,6 +126,8 @@ def run(
             else:
                 print("No object detected")
                 motors.stop()
+
+            print("\n\n")
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
