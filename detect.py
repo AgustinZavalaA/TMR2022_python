@@ -81,7 +81,7 @@ def run(
                         w * h,
                     )
                 )
-            my_detections = sorted(my_detections, key=lambda x: x.score, reverse=True)
+            my_detections = sorted(my_detections, key=lambda x: x.score)
 
             if len(my_detections) > 0:
                 selected_can = my_detections.pop(0)
