@@ -82,17 +82,19 @@ def run(
                     )
                 )
             my_detections = sorted(my_detections, key=lambda x: x.score)
+            print(my_detections, end="\n\n")
 
             if len(my_detections) > 0:
                 selected_can = my_detections.pop(0)
                 while my_detections and selected_can.label != "can":
                     selected_can = my_detections.pop(0)
 
+                if selected_can.label != "can":
+                    continue
+
                 print("I see a {}".format(selected_can.label))
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(distance_from_center)
-
-            # print(my_detections)
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
