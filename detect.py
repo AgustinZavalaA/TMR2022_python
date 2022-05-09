@@ -90,7 +90,7 @@ def run(
                     )
                 )
             my_detections = sorted(my_detections, key=lambda x: x.score)
-            print(my_detections, end="\n\n")
+            # print(my_detections, end="\n\n")
 
             if len(my_detections) > 0:
                 selected_can = my_detections.pop(0)
@@ -101,7 +101,7 @@ def run(
                     continue
 
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
-                print(distance_from_center)
+                print(distance_from_center, end="\n\n")
 
                 # si el objeto esta en la mitad de la imagen (dentro del 30%), no hace nada
                 if abs(distance_from_center) > image.shape[1] // 2 * 0.3:
@@ -116,10 +116,12 @@ def run(
                     vel = 100
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 if distance_from_center < 0:
+                    print("izquierda")
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
                 # si el objeto esta a la izquierda, se mueve a la derecha
                 if distance_from_center > 0:
+                    print("derecha")
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
             else:
