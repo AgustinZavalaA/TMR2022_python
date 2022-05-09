@@ -104,7 +104,9 @@ def run(
                     motors.stop()
 
                 # se toma el 25% de la distancia del objeto
-                vel = int(abs(distance_from_center) * 0.25)
+                vel = int(abs(distance_from_center) * 0.50)
+                if vel > 100:
+                    vel = 100
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 if distance_from_center < 0:
                     motors.move(True, vel, False)
@@ -113,6 +115,9 @@ def run(
                 if distance_from_center > 0:
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
+            else:
+                print("No object detected")
+                motors.stop()
 
             # Draw keypoints and edges on input image
             # image = utils.visualize(image, detections)
