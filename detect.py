@@ -103,10 +103,6 @@ def run(
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(distance_from_center, end="\n\n")
 
-                # si el objeto esta en la mitad de la imagen (dentro del 30%), no hace nada
-                if abs(distance_from_center) > image.shape[1] // 2 * 0.3:
-                    motors.stop()
-
                 # se toma el 25% de la distancia del objeto
                 # vel = int(abs(distance_from_center) * 0.30)
                 vel = map_range(
@@ -114,13 +110,16 @@ def run(
                 )
                 if vel > 100:
                     vel = 100
+                # si el objeto esta en la mitad de la imagen (dentro del 30%), no hace nada
+                if abs(distance_from_center) > image.shape[1] // 2 * 0.3:
+                    motors.stop()
                 # si el objeto esta a la derecha, se mueve a la izquierda
-                if distance_from_center < 0:
+                elif distance_from_center < 0:
                     print("izquierda")
                     motors.move(True, vel, False)
                     motors.move(False, vel, True)
                 # si el objeto esta a la izquierda, se mueve a la derecha
-                if distance_from_center > 0:
+                elif distance_from_center > 0:
                     print("derecha")
                     motors.move(True, vel, True)
                     motors.move(False, vel, False)
