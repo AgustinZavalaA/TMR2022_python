@@ -77,7 +77,7 @@ def run(
                     my_detection(
                         det.categories[0].label,
                         det.categories[0].score,
-                        (det.bounding_box.left + w, det.bounding_box.top + h),
+                        (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
                         w * h,
                     )
                 )
