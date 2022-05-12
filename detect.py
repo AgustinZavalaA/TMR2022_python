@@ -123,8 +123,10 @@ def run(
                             0,
                             image.shape[0] * image.shape[1],
                             20,
-                            50,
+                            100,
                         )
+                        motors.move(True, vel, True)
+                        motors.move(False, vel, True)
 
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 elif distance_from_center < 0:
