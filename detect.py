@@ -118,12 +118,12 @@ def run(
                     if stopped_count < 10:
                         motors.stop()
                     else:
-                        vel = 100 - map_range(
+                        vel = 50 - map_range(
                             selected_can.area,
                             0,
                             image.shape[0] * image.shape[1],
-                            20,
-                            80,
+                            0,
+                            30,
                         )
                         if selected_can.area > 15_000:
                             print("Can is too close")
