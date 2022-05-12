@@ -37,7 +37,7 @@ def run(
     motors = Motors()
     stopped_count = 0
     STOPPED_LIMIT = 5
-    MAX_AREA_LIMIT = 20_000
+    MAX_AREA_LIMIT = 30_000
     last_vel = 0
 
     # Start capturing video input from the camera
@@ -126,7 +126,9 @@ def run(
                     else:
                         # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                         # calcula la velocidad para acercarse al objeto
-                        vel = 40 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                        vel = 50 - map_range(
+                            selected_can.area, 0, MAX_AREA_LIMIT, 0, 30
+                        )
                         vel = int(vel * 0.2 + last_vel * 0.8)
                         last_vel = vel
                         # si el area del objeto es mayor que el limite, entonces se detiene
