@@ -122,13 +122,14 @@ def run(
                             selected_can.area,
                             0,
                             image.shape[0] * image.shape[1],
-                            100,
+                            80,
                             20,
                         )
                         if selected_can.area > 15_000:
                             print("Can is too close")
                             motors.stop()
                         else:
+                            print(f"vel forward {vel}")
                             motors.move(True, vel, True)
                             motors.move(False, vel, True)
 
