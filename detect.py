@@ -121,7 +121,7 @@ def run(
                         vel = 50 - map_range(
                             selected_can.area,
                             0,
-                            image.shape[0] * image.shape[1],
+                            30_000,
                             0,
                             30,
                         )
