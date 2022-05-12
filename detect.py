@@ -37,7 +37,7 @@ def run(
     motors = Motors()
     stopped_count = 0
     STOPPED_LIMIT = 5
-    MAX_AREA_LIMIT = 15_000
+    MAX_AREA_LIMIT = 20_000
     last_vel = 0
 
     # Start capturing video input from the camera
@@ -118,7 +118,7 @@ def run(
                 # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
                 if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
                     print(f"stopped {stopped_count}")
-                    print(f"area {selected_can.area}")
+                    print(f"area={selected_can.area}")
                     stopped_count += 1
                     # si el robot se detiene por menos de 5 frames, entonces se detiene
                     if stopped_count < STOPPED_LIMIT:
@@ -126,7 +126,9 @@ def run(
                     else:
                         # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                         # calcula la velocidad para acercarse al objeto
-                        vel = 50 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                        vel = 40 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                        vel = int(vel * 0.2 + last_vel * 0.8)
+                        last_vel = vel
                         # si el area del objeto es mayor que el limite, entonces se detiene
                         if selected_can.area > MAX_AREA_LIMIT:
                             print("Can is too close")
