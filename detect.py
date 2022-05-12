@@ -42,6 +42,7 @@ def run(
     # Start the motors
     motors = Motors()
     stopped_count = 0
+    last_vel = 0
 
     # Start capturing video input from the camera
     cap = cv2.VideoCapture(camera_id)
@@ -109,6 +110,8 @@ def run(
                 vel = map_range(
                     abs(distance_from_center), 0, image.shape[1] // 2, 20, 50
                 )
+                vel = int(vel * 0.2 + last_vel * 0.8)
+                last_vel = vel
                 print(vel)
                 # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
                 if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
