@@ -122,8 +122,8 @@ def run(
                             selected_can.area,
                             0,
                             image.shape[0] * image.shape[1] // 3,
-                            20,
                             100,
+                            20,
                         )
                         if selected_can.area > 15_000:
                             print("Can is too close")
