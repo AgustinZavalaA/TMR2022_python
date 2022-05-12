@@ -121,7 +121,7 @@ def run(
                         vel = 50 - map_range(
                             selected_can.area,
                             0,
-                            30_000,
+                            20_000,
                             0,
                             30,
                         )
