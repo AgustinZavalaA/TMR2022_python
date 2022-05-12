@@ -1,25 +1,28 @@
+import cv2
+
 import sys
 import time
 import argparse
+from typing import NamedTuple
 
-import cv2
 from camera_utils.object_detector import ObjectDetector
 from camera_utils.object_detector import ObjectDetectorOptions
 from camera_utils import utils
 from modules.Motors import Motors
 
-from typing import NamedTuple
-
 
 class my_detection(NamedTuple):
+    """Class for storing all the metrics of the detection."""
+
     label: str
     score: float
     centroid: tuple[int, int]
     area: int
 
 
-def map_range(x, in_min, in_max, out_min, out_max):
-    return (x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
+def map_range(x: int, in_min: int, in_max: int, out_min: int, out_max: int) -> int:
+    """Convert a value from one range to another range."""
+    return int((x - in_min) * (out_max - out_min) // (in_max - in_min) + out_min)
 
 
 def run(
@@ -30,18 +33,11 @@ def run(
     num_threads: int,
     score_threshold: float,
 ) -> None:
-    """Continuously run inference on images acquired from the camera.
-
-    Args:
-      model: Name of the TFLite object detection model.
-      camera_id: The camera id to be passed to OpenCV.
-      width: The width of the frame captured from the camera.
-      height: The height of the frame captured from the camera.
-      num_threads: The number of CPU threads to run the model.
-    """
-    # Start the motors
+    # Start the motors and variables for motor control
     motors = Motors()
     stopped_count = 0
+    STOPPED_LIMIT = 5
+    MAX_AREA_LIMIT = 15_000
     last_vel = 0
 
     # Start capturing video input from the camera
@@ -50,12 +46,12 @@ def run(
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     # Visualization parameters
-    row_size = 20  # pixels
-    left_margin = 24  # pixels
-    text_color = (0, 0, 255)  # red
-    font_size = 1
-    font_thickness = 1
-    fps_avg_frame_count = 10
+    # row_size = 20  # pixels
+    # left_margin = 24  # pixels
+    # text_color = (0, 0, 255)  # red
+    # font_size = 1
+    # font_thickness = 1
+    # fps_avg_frame_count = 10
 
     # Initialize the object detection model
     options = ObjectDetectorOptions(
@@ -65,20 +61,20 @@ def run(
     )
     detector = ObjectDetector(model_path=model, options=options)
 
+    # Execute the main code until the user presses ctrl-c
     try:
         # Continuously capture images from the camera and run inference
         while cap.isOpened():
             success, image = cap.read()
             if not success:
-                sys.exit(
-                    "ERROR: Unable to read from webcam. Please verify your webcam settings."
-                )
+                sys.exit("ERROR: Unable to read from webcam.")
 
             image = cv2.flip(image, 1)
 
             # Run object detection estimation using the model.
             rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             detections = detector.detect(rgb_image)
+            # get the most important values (label, score, centroid, area) from the detections
             my_detections = []
             for det in detections:
                 w = det.bounding_box.right - det.bounding_box.left
@@ -91,47 +87,52 @@ def run(
                         w * h,
                     )
                 )
+            # sort the detections by score
             my_detections = sorted(my_detections, key=lambda x: x.score)
             # print(my_detections, end="\n\n")
 
+            # If there are any detections, get the most important one (black can)
             if len(my_detections) > 0:
+                # select the black can with the highest score
                 selected_can = my_detections.pop(0)
                 while my_detections and selected_can.label != "black_can":
                     selected_can = my_detections.pop(0)
 
+                # if the selected can is not the black can, then continue the loop
                 if selected_can.label != "black_can":
                     continue
 
+                # calculate the distance from the centroid to the center of the image
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
-                print(distance_from_center, end=" ")
+                print(f"{distance_from_center=}", end=" ")
 
-                # se toma el 25% de la distancia del objeto
-                # vel = int(abs(distance_from_center) * 0.30)
+                # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
                 vel = map_range(
                     abs(distance_from_center), 0, image.shape[1] // 2, 20, 50
                 )
+                # apply some smoothing to the velocity
                 vel = int(vel * 0.2 + last_vel * 0.8)
                 last_vel = vel
-                print(vel)
+                print(f"velocity={vel}")
+
                 # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
                 if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
                     print(f"stopped {stopped_count}")
                     print(f"area {selected_can.area}")
                     stopped_count += 1
-                    if stopped_count < 10:
+                    # si el robot se detiene por menos de 5 frames, entonces se detiene
+                    if stopped_count < STOPPED_LIMIT:
                         motors.stop()
                     else:
-                        vel = 50 - map_range(
-                            selected_can.area,
-                            0,
-                            20_000,
-                            0,
-                            30,
-                        )
-                        if selected_can.area > 15_000:
+                        # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
+                        # calcula la velocidad para acercarse al objeto
+                        vel = 50 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                        # si el area del objeto es mayor que el limite, entonces se detiene
+                        if selected_can.area > MAX_AREA_LIMIT:
                             print("Can is too close")
                             motors.stop()
                         else:
+                            # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
                             print(f"vel forward {vel}")
                             motors.move(True, vel, True)
                             motors.move(False, vel, True)
@@ -163,6 +164,7 @@ def run(
             # cv2.imshow("object_detector", image)
 
     except KeyboardInterrupt:
+        # Stop the motors when the user presses ctrl-c
         print("Program interrupted by user.")
         motors.stop()
         motors.disable()
