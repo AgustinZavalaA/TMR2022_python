@@ -125,8 +125,12 @@ def run(
                             20,
                             100,
                         )
-                        motors.move(True, vel, True)
-                        motors.move(False, vel, True)
+                        if selected_can.area > 15_000:
+                            print("Can is too close")
+                            motors.stop()
+                        else:
+                            motors.move(True, vel, True)
+                            motors.move(False, vel, True)
 
                 # si el objeto esta a la derecha, se mueve a la izquierda
                 elif distance_from_center < 0:
