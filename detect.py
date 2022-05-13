@@ -45,14 +45,6 @@ def run(
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
-    # Visualization parameters
-    # row_size = 20  # pixels
-    # left_margin = 24  # pixels
-    # text_color = (0, 0, 255)  # red
-    # font_size = 1
-    # font_thickness = 1
-    # fps_avg_frame_count = 10
-
     # Initialize the object detection model
     options = ObjectDetectorOptions(
         num_threads=num_threads,
@@ -84,76 +76,75 @@ def run(
                         det.categories[0].label,
                         det.categories[0].score,
                         (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
-                        w * h,
+                        get_area_from_box(det.bounding_box),
                     )
                 )
             # sort the detections by score
             my_detections = sorted(my_detections, key=lambda x: x.score)
             # print(my_detections, end="\n\n")
 
-            # If there are any detections, get the most important one (black can)
-            if len(my_detections) > 0:
-                # select the black can with the highest score
-                selected_can = my_detections.pop(0)
-                while my_detections and selected_can.label != "black_can":
-                    selected_can = my_detections.pop(0)
-
-                # if the selected can is not the black can, then continue the loop
-                if selected_can.label != "black_can":
-                    continue
-
-                # calculate the distance from the centroid to the center of the image
-                distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
-                print(f"{distance_from_center=}", end=" ")
-
-                # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
-                vel = map_range(
-                    abs(distance_from_center), 0, image.shape[1] // 2, 30, 50
-                )
-                # apply some smoothing to the velocity
-                vel = int(vel * 0.2 + last_vel * 0.8)
-                last_vel = vel
-                print(f"velocity={vel}")
-
-                # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
-                if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
-                    print(f"stopped {stopped_count}")
-                    print(f"area={selected_can.area}")
-                    stopped_count += 1
-                    # si el robot se detiene por menos de 5 frames, entonces se detiene
-                    if stopped_count < STOPPED_LIMIT:
-                        motors.stop()
-                    else:
-                        # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
-                        # calcula la velocidad para acercarse al objeto
-                        vel = 60 - map_range(selected_can.area, 0, 20_000, 0, 30)
-                        vel = int(vel * 0.2 + last_vel * 0.8)
-                        last_vel = vel
-                        # si el area del objeto es mayor que el limite, entonces se detiene
-                        if selected_can.area > MAX_AREA_LIMIT:
-                            print("Can is too close")
-                            motors.stop()
-                        else:
-                            # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
-                            print(f"vel forward {vel}")
-                            motors.move(True, vel, True)
-                            motors.move(False, vel, True)
-
-                # si el objeto esta a la derecha, se mueve a la izquierda
-                elif distance_from_center < 0:
-                    stopped_count = 0
-                    print("izquierda")
-                    motors.move(True, vel, False)
-                    motors.move(False, vel, True)
-                # si el objeto esta a la izquierda, se mueve a la derecha
-                elif distance_from_center > 0:
-                    stopped_count = 0
-                    print("derecha")
-                    motors.move(True, vel, True)
-                    motors.move(False, vel, False)
-            else:
-                print("No object detected")
+            if not my_detections:
+                print("No object detected\n\n")
                 motors.stop()
+                continue
+            # If there are any detections, get the most important one (black can)
+            # select the black can with the highest score
+            selected_can = my_detections.pop(0)
+            while my_detections and selected_can.label != "black_can":
+                selected_can = my_detections.pop(0)
+
+            # if the selected can is not the black can, then continue the loop
+            if selected_can.label != "black_can":
+                continue
+
+            # calculate the distance from the centroid to the center of the image
+            distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
+            print(f"{distance_from_center=}", end=" ")
+
+            # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
+            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 30, 50)
+            # apply some smoothing to the velocity
+            vel = int(vel * 0.2 + last_vel * 0.8)
+            last_vel = vel
+            print(f"velocity={vel}")
+
+            # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
+            if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
+                print(f"stopped {stopped_count}")
+                print(f"area={selected_can.area}")
+                stopped_count += 1
+                # si el robot se detiene por menos de 5 frames, entonces se detiene
+                if stopped_count < STOPPED_LIMIT:
+                    motors.stop()
+                else:
+                    # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
+                    # calcula la velocidad para acercarse al objeto
+                    vel = 60 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                    vel = int(vel * 0.2 + last_vel * 0.8)
+                    last_vel = vel
+                    # si el area del objeto es mayor que el limite, entonces se detiene
+                    if selected_can.area > MAX_AREA_LIMIT:
+                        print("Can is too close")
+                        motors.stop()
+                        # TODO aplicar el script de recoger lata
+                    else:
+                        # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
+                        print(f"vel forward {vel}")
+                        motors.move(True, vel, True)
+                        motors.move(False, vel, True)
+
+            # si el objeto esta a la derecha, se mueve a la izquierda
+            elif distance_from_center < 0:
+                stopped_count = 0
+                print("izquierda")
+                motors.move(True, vel, False)
+                motors.move(False, vel, True)
+            # si el objeto esta a la izquierda, se mueve a la derecha
+            elif distance_from_center > 0:
+                stopped_count = 0
+                print("derecha")
+                motors.move(True, vel, True)
+                motors.move(False, vel, False)
 
             print("\n\n")
 
