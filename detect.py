@@ -90,6 +90,12 @@ def run(
                         ),
                     )
                 )
+                print(
+                    rgb_image[
+                        t - IMAGE_PADDING : b + IMAGE_PADDING,
+                        l - IMAGE_PADDING : r + IMAGE_PADDING,
+                    ].shape
+                )
             # sort the detections by score
             my_detections = sorted(my_detections, key=lambda x: x.score)
             # print(my_detections, end="\n\n")
