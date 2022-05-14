@@ -94,12 +94,12 @@ def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     motors.move(True, 100, True)
     motors.move(False, 100, True)
     time.sleep(1.2)
+    motors.stop()
     # cierra la garra
     move_claw(arduino)
     # sube el brazo
     move_arm(arduino)
     # apagar los motores
-    motors.stop()
 
 
 if __name__ == "__main__":
