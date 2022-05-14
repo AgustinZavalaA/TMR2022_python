@@ -77,6 +77,12 @@ def run(
                 r = det.bounding_box.right
                 t = det.bounding_box.top
                 b = det.bounding_box.bottom
+                print(
+                    rgb_image[
+                        t - IMAGE_PADDING : b + IMAGE_PADDING,
+                        l - IMAGE_PADDING : r + IMAGE_PADDING,
+                    ].shape
+                )
                 my_detections.append(
                     my_detection(
                         det.categories[0].label,
@@ -89,12 +95,6 @@ def run(
                             ]
                         ),
                     )
-                )
-                print(
-                    rgb_image[
-                        t - IMAGE_PADDING : b + IMAGE_PADDING,
-                        l - IMAGE_PADDING : r + IMAGE_PADDING,
-                    ].shape
                 )
             # sort the detections by score
             my_detections = sorted(my_detections, key=lambda x: x.score)
