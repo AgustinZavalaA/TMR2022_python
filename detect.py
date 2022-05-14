@@ -38,7 +38,7 @@ def run(
     motors = Motors()
     stopped_count = 0
     STOPPED_LIMIT = 5
-    MAX_AREA_LIMIT = 15_000
+    MAX_AREA_LIMIT = 10_000
     IMAGE_PADDING = 30
     last_vel = 0
 
@@ -71,18 +71,17 @@ def run(
             # get the most important values (label, score, centroid, area) from the detections
             my_detections = []
             for det in detections:
-                w = det.bounding_box.right - det.bounding_box.left
-                h = det.bounding_box.bottom - det.bounding_box.top
                 l = det.bounding_box.left
                 r = det.bounding_box.right
                 t = det.bounding_box.top
                 b = det.bounding_box.bottom
-                print(rgb_image[t:b, l:r].shape)
+                w = r - l
+                h = b - t
                 my_detections.append(
                     my_detection(
                         det.categories[0].label,
                         det.categories[0].score,
-                        (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
+                        (l + w // 2, t + h // 2),
                         get_area_from_box(rgb_image[t:b, l:r]),
                     )
                 )
@@ -126,7 +125,7 @@ def run(
                 else:
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
-                    vel = 60 - map_range(selected_can.area, 0, 20_000, 0, 30)
+                    vel = 60 - map_range(selected_can.area, 0, 15_000, 0, 30)
                     vel = int(vel * 0.2 + last_vel * 0.8)
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
