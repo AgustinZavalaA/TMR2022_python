@@ -38,6 +38,7 @@ def run(
     stopped_count = 0
     STOPPED_LIMIT = 5
     MAX_AREA_LIMIT = 15_000
+    IMAGE_PADDING = 30
     last_vel = 0
 
     # Start capturing video input from the camera
@@ -71,12 +72,21 @@ def run(
             for det in detections:
                 w = det.bounding_box.right - det.bounding_box.left
                 h = det.bounding_box.bottom - det.bounding_box.top
+                l = det.bounding_box.left
+                r = det.bounding_box.right
+                t = det.bounding_box.top
+                b = det.bounding_box.bottom
                 my_detections.append(
                     my_detection(
                         det.categories[0].label,
                         det.categories[0].score,
                         (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
-                        get_area_from_box(det.bounding_box),
+                        get_area_from_box(
+                            image[
+                                t - IMAGE_PADDING : b + IMAGE_PADDING,
+                                l - IMAGE_PADDING : r + IMAGE_PADDING,
+                            ]
+                        ),
                     )
                 )
             # sort the detections by score
