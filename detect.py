@@ -9,6 +9,7 @@ from camera_utils.object_detector import ObjectDetector
 from camera_utils.object_detector import ObjectDetectorOptions
 from camera_utils import utils
 from modules.Motors import Motors
+from image_area import get_area_from_box
 
 
 class my_detection(NamedTuple):
