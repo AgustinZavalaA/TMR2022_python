@@ -4,6 +4,19 @@ from utils.ArduinoSerialComm import ArduinoComm
 import time
 
 
+def main2() -> None:
+    arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    motors = Motors()
+    time.sleep(2)
+    print("Ready to use")
+
+    pick_up_can(arduino, motors)
+
+    arduino.close()
+    motors.stop()
+    motors.disable()
+
+
 def main():
     arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
     motors = Motors()
@@ -90,4 +103,5 @@ def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    main2()
