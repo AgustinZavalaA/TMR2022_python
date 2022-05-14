@@ -83,7 +83,7 @@ def run(
                         det.categories[0].score,
                         (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
                         get_area_from_box(
-                            image[
+                            rgb_image[
                                 t - IMAGE_PADDING : b + IMAGE_PADDING,
                                 l - IMAGE_PADDING : r + IMAGE_PADDING,
                             ]
