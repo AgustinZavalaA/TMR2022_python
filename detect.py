@@ -77,23 +77,13 @@ def run(
                 r = det.bounding_box.right
                 t = det.bounding_box.top
                 b = det.bounding_box.bottom
-                print(
-                    rgb_image[
-                        t - IMAGE_PADDING : b + IMAGE_PADDING,
-                        l - IMAGE_PADDING : r + IMAGE_PADDING,
-                    ].shape
-                )
+                print(rgb_image[t:b, l:r].shape)
                 my_detections.append(
                     my_detection(
                         det.categories[0].label,
                         det.categories[0].score,
                         (det.bounding_box.left + w // 2, det.bounding_box.top + h // 2),
-                        get_area_from_box(
-                            rgb_image[
-                                t - IMAGE_PADDING : b + IMAGE_PADDING,
-                                l - IMAGE_PADDING : r + IMAGE_PADDING,
-                            ]
-                        ),
+                        get_area_from_box(rgb_image[t:b, l:r]),
                     )
                 )
             # sort the detections by score
