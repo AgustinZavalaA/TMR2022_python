@@ -1,22 +1,31 @@
 import cv2
+import numpy as np
+
+def Threshold(img):
+    #set color to image
+    grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    #resize just in case and change imshow parammeter
+    resized_img = cv2.resize(img, (400, 400))
+    resized_grey_img = cv2.resize(grey_img, (400, 400))
+    
+    return_value = (thresh, resized_bnw) = cv2.threshold(resized_grey_img, 80, 255, cv2.THRESH_BINARY_INV)
+    return return_value 
+
+
+
+    #print(resized_bnw)
+    
+    #cv2.imshow('Normal', resized_img)
+    #cv2.imshow('Gris', resized_grey_img)
+    #cv2.imshow('Black and with with inversal threshold', resized_bnw)
+
+    #cv2.waitKey()
+    #cv2.destroyAllWindows()
 
 img = cv2.imread("src/black_can_img.jpeg")
 
-#set color to image
-grey_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
-#resize just in case and change imshow parammeter
-resized_img = cv2.resize(img, (400, 400))
-resized_grey_img = cv2.resize(grey_img, (400, 400))
-(thresh, resized_bnw) = cv2.threshold(resized_grey_img, 80, 255, cv2.THRESH_BINARY_INV)
-
-cv2.imshow('Normal', resized_img)
-cv2.imshow('Gris', resized_grey_img)
-cv2.imshow('Black and with with inversal threshold', resized_bnw)
-
-cv2.waitKey()
-cv2.destroyAllWindows()
-
+print(Threshold(img))
 
 
 
