@@ -145,6 +145,7 @@ def run(
                 stopped_count = 0
                 print("izquierda")
                 # motors.move(True, vel, False)
+                motors.move(True, 0, False)
                 motors.move(False, vel, True)
             # si el objeto esta a la izquierda, se mueve a la derecha
             elif distance_from_center > 0:
@@ -152,6 +153,7 @@ def run(
                 print("derecha")
                 motors.move(True, vel, True)
                 # motors.move(False, vel, False)
+                motors.move(False, 0, False)
 
             print("\n\n")
 
