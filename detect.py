@@ -78,30 +78,7 @@ def run(
                 x_component,
             ) = arduino.communicate(data="1")
 
-            image = cv2.flip(image, 1)
-
-            # Run object detection estimation using the model.
-            rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-            detections = detector.detect(rgb_image)
-            # get the most important values (label, score, centroid, area) from the detections
-            my_detections = []
-            for det in detections:
-                l = det.bounding_box.left
-                r = det.bounding_box.right
-                t = det.bounding_box.top
-                b = det.bounding_box.bottom
-                w = r - l
-                h = b - t
-                my_detections.append(
-                    my_detection(
-                        det.categories[0].label,
-                        det.categories[0].score,
-                        (l + w // 2, t + h // 2),
-                        get_area_from_box(rgb_image[t:b, l:r]),
-                    )
-                )
-            # sort the detections by score
-            my_detections = sorted(my_detections, key=lambda x: x.score)
+            my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
 
             if not my_detections:
@@ -111,11 +88,11 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
-            while my_detections and selected_can.label != "black_can":
+            while my_detections and not selected_can.label.find("can"):
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
-            if selected_can.label != "black_can":
+            if not selected_can.label.find("can"):
                 continue
 
             # calculate the distance from the centroid to the center of the image
@@ -182,6 +159,33 @@ def run(
         motors.disable()
         cap.release()
         cv2.destroyAllWindows()
+
+
+def process_detections(image, detector):
+    image = cv2.flip(image, 1)
+
+    # Run object detection estimation using the model.
+    rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    detections = detector.detect(rgb_image)
+    # get the most important values (label, score, centroid, area) from the detections
+    my_detections = []
+    for det in detections:
+        l = det.bounding_box.left
+        r = det.bounding_box.right
+        t = det.bounding_box.top
+        b = det.bounding_box.bottom
+        w = r - l
+        h = b - t
+        my_detections.append(
+            my_detection(
+                det.categories[0].label,
+                det.categories[0].score,
+                (l + w // 2, t + h // 2),
+                get_area_from_box(rgb_image[t:b, l:r]),
+            )
+        )
+    # sort the detections by score
+    return sorted(my_detections, key=lambda x: x.score)
 
 
 def main():
