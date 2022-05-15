@@ -10,15 +10,14 @@ class ArduinoComm:
         self.ser = serial.Serial(port, baudrate, timeout=timeout)
         self.ser.flush()
 
-    def communicate(self, data: str = "1") -> Tuple[int, int, List[str]]:
+    def communicate(self, data: str = "1") -> Tuple[int, int, int, float, float, float]:
         self.ser.write(data.encode("ascii"))
         if data != "1":
-            return 0, 0, []
+            return 0, 0, 0, 0.0, 0.0, 0.0
 
         line = self.ser.readline().decode("ascii").rstrip()
         line_list = line.split(",")
         r = None
-        print(line_list)
         try:
             # r = int(line_list[0]), int(line_list[1]), line_list[2:]
             r = (
@@ -31,7 +30,6 @@ class ArduinoComm:
             )
         except ValueError:
             r = None
-        print(r)
         return r
 
     def close(self) -> None:

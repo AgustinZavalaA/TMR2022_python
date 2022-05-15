@@ -69,14 +69,16 @@ def run(
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
 
-            (
-                btn_change,
-                btn_mode,
-                front_ultrasonic,
-                magnitud,
-                angle,
-                x_component,
-            ) = arduino.communicate(data="1")
+            arduino_data = arduino.communicate(data="1")
+            if arduino_data is not None:
+                (
+                    btn_change,
+                    btn_mode,
+                    front_ultrasonic,
+                    magnitud,
+                    angle,
+                    x_component,
+                ) = data
             print(f"{front_ultrasonic=}")
 
             my_detections = process_detections(image, detector)
