@@ -201,7 +201,7 @@ def process_detections(image, detector):
     # sort the detections by score
     # return sorted(my_detections, key=lambda x: x.score)
     # return my_detections
-    return sorted(my_detections, key=lambda x: x.area, reverse=True)
+    return sorted(my_detections, key=lambda x: x.area * x.score, reverse=True)
 
 
 def main():
