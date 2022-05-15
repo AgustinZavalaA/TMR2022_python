@@ -25,12 +25,13 @@ class ArduinoComm:
                 int(line_list[0]),  # btn_change
                 int(line_list[1]),  # btn_mode
                 int(line_list[2]),  # u1
-                int(line_list[3]),  # magnitud
-                int(line_list[4]),  # angle
-                int(line_list[5]),  # x_component
+                float(line_list[3]),  # magnitud
+                float(line_list[4]),  # angle
+                float(line_list[5]),  # x_component
             )
         except ValueError:
             r = None
+        print(r)
         return r
 
     def close(self) -> None:
