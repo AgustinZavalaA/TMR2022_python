@@ -39,7 +39,6 @@ def run(
     stopped_count = 0
     STOPPED_LIMIT = 5
     MAX_AREA_LIMIT = 10_000
-    IMAGE_PADDING = 30
     last_vel = 0
 
     # Start capturing video input from the camera
@@ -108,7 +107,7 @@ def run(
             print(f"{distance_from_center=}", end=" ")
 
             # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
-            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 30, 50)
+            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 30, 40)
             # apply some smoothing to the velocity
             vel = int(vel * 0.2 + last_vel * 0.8)
             last_vel = vel
