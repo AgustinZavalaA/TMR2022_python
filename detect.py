@@ -131,6 +131,8 @@ def run(
                     # calcula la velocidad para acercarse al objeto
                     vel = 60 - map_range(selected_can.area, 0, 15_000, 0, 50)
                     vel = int(vel * 0.2 + last_vel * 0.8)
+                    vel = 0 if vel < 0 else vel
+                    vel = 100 if vel > 100 else vel
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
                     if selected_can.area > MAX_AREA_LIMIT:
