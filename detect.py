@@ -103,7 +103,7 @@ def run(
             print(f"{distance_from_center=}", end=" ")
 
             # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
-            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 20, 40)
+            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 25, 40)
             # apply some smoothing to the velocity
             vel = int(vel * 0.2 + last_vel * 0.8)
             last_vel = vel
@@ -120,7 +120,7 @@ def run(
                 else:
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
-                    vel = 60 - map_range(selected_can.area, 0, 15_000, 0, 30)
+                    vel = 70 - map_range(selected_can.area, 0, 15_000, 0, 30)
                     vel = int(vel * 0.2 + last_vel * 0.8)
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
