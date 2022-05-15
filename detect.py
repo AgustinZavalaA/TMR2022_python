@@ -78,7 +78,7 @@ def run(
                     magnitud,
                     angle,
                     x_component,
-                ) = data
+                ) = arduino_data
             print(f"{front_ultrasonic=}")
 
             my_detections = process_detections(image, detector)
