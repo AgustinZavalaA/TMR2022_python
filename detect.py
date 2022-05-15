@@ -4,12 +4,14 @@ import sys
 import time
 import argparse
 from typing import NamedTuple
+import time
 
 from camera_utils.object_detector import ObjectDetector
 from camera_utils.object_detector import ObjectDetectorOptions
 from camera_utils import utils
 from modules.Motors import Motors
 from image_area import get_area_from_box
+from modules.ArduinoSerialComm import ArduinoComm
 
 
 class my_detection(NamedTuple):
@@ -34,12 +36,17 @@ def run(
     num_threads: int,
     score_threshold: float,
 ) -> None:
-    # Start the motors and variables for motor control
-    motors = Motors()
+    # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 5
     MAX_AREA_LIMIT = 10_000
     last_vel = 0
+
+    # Start the motors and variables for motor control and arduino communication
+    motors = Motors()
+    arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    time.sleep(2)
+    print("Ready to use")
 
     # Start capturing video input from the camera
     cap = cv2.VideoCapture(camera_id)
@@ -61,6 +68,15 @@ def run(
             success, image = cap.read()
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
+
+            (
+                btn_change,
+                btn_mode,
+                front_ultrasonic,
+                magnitud,
+                angle,
+                x_component,
+            ) = arduino.communicate(data="1")
 
             image = cv2.flip(image, 1)
 
@@ -153,17 +169,10 @@ def run(
 
             print("\n\n")
 
-            # Draw keypoints and edges on input image
-            # image = utils.visualize(image, detections)
-
-            # Stop the program if the ESC key is pressed.
-            # if cv2.waitKey(1) == 27:
-            #     break
-            # cv2.imshow("object_detector", image)
-
     except KeyboardInterrupt:
         # Stop the motors when the user presses ctrl-c
         print("Program interrupted by user.")
+        arduino.close()
         motors.stop()
         motors.disable()
         cap.release()

@@ -19,7 +19,15 @@ class ArduinoComm:
         line_list = line.split(",")
         r = None
         try:
-            r = int(line_list[0]), int(line_list[1]), line_list[2:]
+            # r = int(line_list[0]), int(line_list[1]), line_list[2:]
+            r = (
+                int(line_list[0]),  # btn_change
+                int(line_list[1]),  # btn_mode
+                int(line_list[2]),  # u1
+                int(line_list[3]),  # magnitud
+                int(line_list[4]),  # angle
+                int(line_list[5]),  # x_component
+            )
         except ValueError:
             r = None
         return r
