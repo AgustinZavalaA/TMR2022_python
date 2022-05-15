@@ -184,7 +184,7 @@ def process_detections(image, detector):
                 det.categories[0].label,
                 det.categories[0].score,
                 (l + w // 2, t + h // 2),
-                get_area_from_box(rgb_image[t:b, l:r]),
+                get_area_from_box(rgb_image[t + 1 : b - 1, l + 1 : r - 1]),
             )
         )
     # sort the detections by score
