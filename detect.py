@@ -12,6 +12,7 @@ from camera_utils import utils
 from modules.Motors import Motors
 from image_area import get_area_from_box
 from modules.ArduinoSerialComm import ArduinoComm
+from walk_to_water import check_if_there_is_water
 
 
 class my_detection(NamedTuple):
@@ -83,6 +84,13 @@ def run(
 
             my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
+
+            if check_if_there_is_water(
+                frame[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
+            ):
+                print("There is water\n\n")
+                motors.stop()
+                continue
 
             if not my_detections:
                 print("No object detected\n\n")
