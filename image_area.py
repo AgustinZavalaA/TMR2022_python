@@ -3,6 +3,7 @@ import numpy as np
 
 
 def get_area_from_box(img: np.array, threshold: int = 80) -> int:
+    print(img.shape)
     # set color to image
     grey_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     # binarize image to the threshold
