@@ -7,6 +7,18 @@ from modules.ArduinoSerialComm import ArduinoComm
 import time
 
 
+def check_if_there_is_water(
+    img: np.array,
+    hsv_min: tuple[int, int, int],
+    hsv_max: tuple[int, int, int],
+    threshold: int = 0.7,
+) -> bool:
+    water_roi = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    masked_water = cv2.inRange(water_roi, hsv_min, hsv_max)
+
+    return np.count_nonzero(masked_water) > img.shape[0] * img.shape[1] * threshold
+
+
 def main(
     hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int], visible: bool = False
 ):
@@ -24,17 +36,7 @@ def main(
                 print("Error al leer la camara")
                 break
 
-            water_roi = frame[300:360, :]
-            water_roi = cv2.cvtColor(water_roi, cv2.COLOR_BGR2HSV)
-            masked_water = cv2.inRange(water_roi, hsv_min, hsv_max)
-
-            # print if water is detected, majority of the pixels are 1
-
-            threshold = 0.7
-            if (
-                np.sum(masked_water)
-                > masked_water.shape[0] * masked_water.shape[1] * 255 * threshold
-            ):
+            if check_if_there_is_water(frame[300:360, :], hsv_min, hsv_max):
                 motors.stop()
                 print("Water detected")
             else:
