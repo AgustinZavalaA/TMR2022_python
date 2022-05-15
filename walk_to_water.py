@@ -57,7 +57,7 @@ def main(
 
 if __name__ == "__main__":
     main(
-        hsv_min=(85, 0, 38),
-        hsv_max=(152, 133, 125),
+        hsv_min=(110, 38, 0),
+        hsv_max=(131, 255, 255),
         visible=False,
     )
