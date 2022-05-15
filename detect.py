@@ -146,7 +146,12 @@ def run(
                     # si el area del objeto es mayor que el limite, entonces se detiene
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
-                        motors.stop()
+                        # si esta muy cerca, entonces retrocede
+                        if front_ultrasonic < 20 and front_ultrasonic < 50:
+                            motors.move(True, vel, False)
+                            motors.move(False, vel, False)
+                        else:
+                            motors.stop()
                         # TODO aplicar el script de recoger lata
                     else:
                         # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
