@@ -86,7 +86,7 @@ def run(
             # print(my_detections, end="\n\n")
 
             if check_if_there_is_water(
-                frame[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
+                image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
             ):
                 print("There is water\n\n")
                 motors.stop()
