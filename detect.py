@@ -77,6 +77,7 @@ def run(
                 angle,
                 x_component,
             ) = arduino.communicate(data="1")
+            print(f"{front_ultrasonic=}")
 
             my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
