@@ -103,7 +103,7 @@ def run(
             print(f"{distance_from_center=}", end=" ")
 
             # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
-            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 30, 40)
+            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 20, 40)
             # apply some smoothing to the velocity
             vel = int(vel * 0.2 + last_vel * 0.8)
             last_vel = vel
