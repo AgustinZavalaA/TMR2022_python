@@ -40,7 +40,7 @@ def run(
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 5
-    MAX_AREA_LIMIT = 10_000
+    MAX_AREA_LIMIT = 8_000
     last_vel = 0
 
     # Start the motors and variables for motor control and arduino communication
@@ -138,7 +138,7 @@ def run(
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
-                        if front_ultrasonic < 20 and front_ultrasonic < 50:
+                        if front_ultrasonic < 30 and front_ultrasonic < 50:
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
                         else:
