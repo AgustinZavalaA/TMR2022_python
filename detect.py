@@ -13,6 +13,7 @@ from modules.Motors import Motors
 from image_area import get_area_from_box
 from modules.ArduinoSerialComm import ArduinoComm
 from walk_to_water import check_if_there_is_water
+from main import pick_up_can
 
 
 class my_detection(NamedTuple):
@@ -40,6 +41,8 @@ def run(
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 5
+    grab_can_count = 0
+    GRAB_CAN_LIMIT = 5
     MAX_AREA_LIMIT = 8_000
     last_vel = 0
 
@@ -141,16 +144,23 @@ def run(
                         if front_ultrasonic < 30 and front_ultrasonic < 50:
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
+                            grab_can_count = 0
                         else:
                             motors.stop()
-                            print("Deberia sonar")
                             arduino.communicate(data="6")
-                            # TODO aplicar el script de recoger lata
+                            grab_can_count += 1
+                            if grab_can_count > GRAB_CAN_LIMIT:
+                                # TODO aplicar el script de recoger lata
+                                grab_can_count = 0
+                                if input("Do you want to grab the can? (y/n)") == "y":
+                                    pick_up_can(arduino, motors)
+
                     else:
                         # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
                         print(f"vel forward {vel}")
                         motors.move(True, vel, True)
                         motors.move(False, vel, True)
+                        grab_can_count = 0
 
             # si el objeto esta a la derecha, se mueve a la izquierda
             elif distance_from_center < 0:
