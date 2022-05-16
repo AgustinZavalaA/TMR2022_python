@@ -51,9 +51,13 @@ def main() -> None:
     print(arduino.communicate("3"))
     time.sleep(2)
     arduino.communicate("5")
+    time.sleep(2)
     arduino.communicate("6")
+    time.sleep(2)
     arduino.communicate("7")
+    time.sleep(2)
     arduino.communicate("1500")
+    time.sleep(2)
 
     # si se necesita hacer un communicate("2") se necesita implementar un sleep seguido de este
     try:
