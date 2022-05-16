@@ -87,7 +87,7 @@ def move_claw(arduino: ArduinoComm) -> None:
 
 def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     # abre la garra
-    move_claw(arduino)
+    # move_claw(arduino)
     # baja el brazo
     move_arm(arduino)
     # se acerca a la lata
@@ -99,7 +99,7 @@ def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     move_claw(arduino)
     # sube el brazo
     move_arm(arduino)
-    # apagar los motores
+    move_claw(arduino)
 
 
 if __name__ == "__main__":
