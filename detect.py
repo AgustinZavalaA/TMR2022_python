@@ -129,7 +129,7 @@ def run(
                 else:
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
-                    vel = 60 - map_range(selected_can.area, 0, 15_000, 0, 50)
+                    vel = 60 - map_range(selected_can.area, 0, 15_000, 0, 45)
                     vel = int(vel * 0.2 + last_vel * 0.8)
                     vel = 0 if vel < 0 else vel
                     vel = 100 if vel > 100 else vel
@@ -143,7 +143,9 @@ def run(
                             motors.move(False, vel, False)
                         else:
                             motors.stop()
-                        # TODO aplicar el script de recoger lata
+                            print("Deberia sonar")
+                            arduino.communicate(data="6")
+                            # TODO aplicar el script de recoger lata
                     else:
                         # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
                         print(f"vel forward {vel}")
