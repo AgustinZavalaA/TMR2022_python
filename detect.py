@@ -142,6 +142,7 @@ def run(
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
                         if front_ultrasonic < 30 and front_ultrasonic < 50:
+                            vel = 100 if vel * 2 > 100 else vel * 2
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
                             grab_can_count = 0
