@@ -57,6 +57,7 @@ def run(
     cap = cv2.VideoCapture(camera_id)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
+    cap.set(cv2.CAP_PROP_FPS, 2)
 
     # Initialize the object detection model
     options = ObjectDetectorOptions(
@@ -139,7 +140,7 @@ def run(
                 else:
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
-                    vel = 50 - map_range(selected_can.area, 0, 15_000, 0, 40)
+                    vel = 48 - map_range(selected_can.area, 0, 15_000, 0, 35)
                     vel = int(vel * 0.2 + last_vel * 0.8)
                     vel = 0 if vel < 0 else vel
                     vel = 100 if vel > 100 else vel
