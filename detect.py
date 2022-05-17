@@ -40,9 +40,9 @@ def run(
 ) -> None:
     # variables for the program
     stopped_count = 0
-    STOPPED_LIMIT = 5
+    STOPPED_LIMIT = 10
     grab_can_count = 0
-    GRAB_CAN_LIMIT = 5
+    GRAB_CAN_LIMIT = 10
     MAX_AREA_LIMIT = 8_000
     number_of_cans_recolected = 0
     last_vel = 0
@@ -76,9 +76,9 @@ def run(
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
 
-            cv2.imshow("image1", image)
-            if cv2.waitKey(1) & 0xFF == ord("q"):
-                raise KeyboardInterrupt
+            # cv2.imshow("image1", image)
+            # if cv2.waitKey(1) & 0xFF == ord("q"):
+            #     raise KeyboardInterrupt
 
             arduino_data = arduino.communicate(data="1")
             if arduino_data is not None:
@@ -180,13 +180,13 @@ def run(
                             grab_can_count += 1
                             if grab_can_count > GRAB_CAN_LIMIT:
                                 grab_can_count = 0
-                                image = cv2.circle(
-                                    image, selected_can.centroid, 5, (0, 0, 255), -1
-                                )
-                                cv2.imshow("image", image)
-                                print(image)
-                                if cv2.waitKey(1) & 0xFF == ord("q"):
-                                    raise KeyboardInterrupt
+                                # image = cv2.circle(
+                                #     image, selected_can.centroid, 5, (0, 0, 255), -1
+                                # )
+                                # cv2.imshow("image", image)
+                                # print(image)
+                                # if cv2.waitKey(1) & 0xFF == ord("q"):
+                                #     raise KeyboardInterrupt
 
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
