@@ -40,9 +40,9 @@ def run(
 ) -> None:
     # variables for the program
     stopped_count = 0
-    STOPPED_LIMIT = 10
+    STOPPED_LIMIT = 6
     grab_can_count = 0
-    GRAB_CAN_LIMIT = 10
+    GRAB_CAN_LIMIT = 6
     MAX_AREA_LIMIT = 8_000
     number_of_cans_recolected = 0
     last_vel = 0
@@ -123,7 +123,7 @@ def run(
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
             while my_detections and (
-                not selected_can.label.find(label_to_find) or selected_can.area > 50_000
+                not selected_can.label.find(label_to_find) or selected_can.area > 30_000
             ):
                 selected_can = my_detections.pop(0)
 
