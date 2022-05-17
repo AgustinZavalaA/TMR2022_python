@@ -239,6 +239,7 @@ def process_detections(image, detector, visualize=False):
         )
         if visualize:
             cv2.imshow(f"det {i}", image[t:b, l:r])
+            cv2.waitKey(0)
     # sort the detections by score
     # return sorted(my_detections, key=lambda x: x.score)
     # return my_detections
