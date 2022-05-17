@@ -159,7 +159,6 @@ def run(
                             arduino.communicate(data="6")
                             grab_can_count += 1
                             if grab_can_count > GRAB_CAN_LIMIT:
-                                # TODO aplicar el script de recoger lata
                                 grab_can_count = 0
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
