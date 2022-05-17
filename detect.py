@@ -77,6 +77,8 @@ def run(
                 sys.exit("ERROR: Unable to read from webcam.")
 
             cv2.imshow("image1", image)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                raise KeyboardInterrupt
 
             arduino_data = arduino.communicate(data="1")
             if arduino_data is not None:
