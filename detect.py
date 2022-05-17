@@ -148,8 +148,8 @@ def run(
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
-                        if front_ultrasonic < 30 and front_ultrasonic < 50:
-                            vel = 50
+                        if front_ultrasonic < 28 and front_ultrasonic < 50:
+                            vel = 35
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
                             grab_can_count = 0
