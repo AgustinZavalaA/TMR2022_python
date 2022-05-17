@@ -88,7 +88,7 @@ def run(
                 ) = arduino_data
             print(f"{front_ultrasonic=}")
 
-            my_detections = process_detections(image, detector, visualize=True)
+            my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
 
             if check_if_there_is_water(
