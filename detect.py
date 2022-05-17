@@ -98,8 +98,9 @@ def run(
                 continue
 
             if not my_detections:
-                print("No object detected\n\n")
-                motors.stop()
+                print("No object detected\nMoviendome a la izquierda\n\n")
+                motors.move(True, 30, False)
+                motors.move(False, 30, True)
                 continue
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
@@ -147,11 +148,11 @@ def run(
                     vel = 100 if vel > 100 else vel
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
-                    if label_to_find =="goal":
+                    if label_to_find == "goal":
                         print("buscando goal nose que hacer")
                         motors.stop()
                         continue
-                    
+
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
