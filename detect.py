@@ -43,7 +43,7 @@ def run(
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
-    MAX_AREA_LIMIT = 6_000
+    MAX_AREA_LIMIT = 3_000
     number_of_cans_recolected = 0
     last_vel = 0
     found_something_of_interest = True
