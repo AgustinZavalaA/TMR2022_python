@@ -180,7 +180,10 @@ def run(
                                     image, selected_can.centroid, 5, (0, 0, 255), -1
                                 )
                                 cv2.imshow("image", image)
-                                cv2.waitKey(1)
+                                print(image)
+                                if cv2.waitKey(1) & 0xFF == ord("q"):
+                                    raise KeyboardInterrupt
+
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
                                     number_of_cans_recolected += 1
