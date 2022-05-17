@@ -100,8 +100,8 @@ def run(
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
-                motors.move(True, 30, False)
-                motors.move(False, 30, True)
+                motors.move(True, 40, False)
+                motors.move(False, 40, True)
 
             if not my_detections:
                 print("No object detected\n\n")
@@ -118,7 +118,9 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
-            while my_detections and (not selected_can.label.find(label_to_find) or selected_can.area > 50_000):
+            while my_detections and (
+                not selected_can.label.find(label_to_find) or selected_can.area > 50_000
+            ):
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
