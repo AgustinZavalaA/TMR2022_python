@@ -76,6 +76,8 @@ def run(
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
 
+            cv2.imshow("image1", image)
+
             arduino_data = arduino.communicate(data="1")
             if arduino_data is not None:
                 (
