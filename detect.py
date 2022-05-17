@@ -75,8 +75,6 @@ def run(
             success, image = cap.read()
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
-            cv2.imshow(f"det", image)
-            cv2.waitKey(1)
 
             arduino_data = arduino.communicate(data="1")
             if arduino_data is not None:
@@ -178,6 +176,11 @@ def run(
                             grab_can_count += 1
                             if grab_can_count > GRAB_CAN_LIMIT:
                                 grab_can_count = 0
+                                image = cv2.circle(
+                                    image, selected_can.centroid, 5, (0, 0, 255), -1
+                                )
+                                cv2.imshow("image", image)
+                                cv2.waitKey(1)
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
                                     number_of_cans_recolected += 1
@@ -216,7 +219,7 @@ def run(
         cv2.destroyAllWindows()
 
 
-def process_detections(image, detector, visualize=False):
+def process_detections(image, detector):
     image = cv2.flip(image, 1)
 
     # Run object detection estimation using the model.
@@ -239,9 +242,6 @@ def process_detections(image, detector, visualize=False):
                 get_area_from_box(rgb_image[t:b, l:r]),
             )
         )
-        if visualize:
-            cv2.imshow(f"det {i}", image[t:b, l:r])
-            cv2.waitKey(1)
     # sort the detections by score
     # return sorted(my_detections, key=lambda x: x.score)
     # return my_detections
