@@ -44,6 +44,7 @@ def run(
     grab_can_count = 0
     GRAB_CAN_LIMIT = 5
     MAX_AREA_LIMIT = 8_000
+    number_of_cans_recolected = 0
     last_vel = 0
 
     # Start the motors and variables for motor control and arduino communication
@@ -99,6 +100,12 @@ def run(
                 print("No object detected\n\n")
                 motors.stop()
                 continue
+
+            # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
+            if number_of_cans_recolected > 3:
+
+                continue
+
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
@@ -142,7 +149,7 @@ def run(
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
                         if front_ultrasonic < 30 and front_ultrasonic < 50:
-                            vel = 100 if vel * 2 > 100 else vel * 2
+                            vel = 50
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
                             grab_can_count = 0
@@ -155,6 +162,7 @@ def run(
                                 grab_can_count = 0
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
+                                    number_of_cans_recolected += 1
 
                     else:
                         # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
