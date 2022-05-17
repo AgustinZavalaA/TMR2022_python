@@ -118,7 +118,7 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
-            while my_detections and not selected_can.label.find(label_to_find):
+            while my_detections and (not selected_can.label.find(label_to_find) or selected_can.area > 50_000):
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
@@ -280,7 +280,7 @@ def main():
         help="threshold for object detection",
         required=False,
         type=float,
-        default=0.65,
+        default=0.7,
     )
     args = parser.parse_args()
 
