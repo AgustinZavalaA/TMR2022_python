@@ -146,7 +146,7 @@ def run(
             print(f"velocity={vel}")
 
             # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
-            if abs(distance_from_center) < image.shape[1] // 2 * 0.2:
+            if abs(distance_from_center) < image.shape[1] // 2 * 0.25:
                 print(f"stopped {stopped_count}")
                 print(f"area={selected_can.area}")
                 stopped_count += 1
@@ -171,7 +171,9 @@ def run(
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
-                        if front_ultrasonic < 28 and front_ultrasonic < 50:
+                        if (
+                            front_ultrasonic < 28 and front_ultrasonic < 50
+                        ) or selected_can.area > 20_000:
                             vel = 35
                             motors.move(True, vel, False)
                             motors.move(False, vel, False)
