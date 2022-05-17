@@ -97,8 +97,8 @@ def run(
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
-                motors.move(True, 40, False)
-                motors.move(False, 40, True)
+                motors.move(True, 45, False)
+                motors.move(False, 45, True)
 
             if check_if_there_is_water(
                 image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
@@ -295,7 +295,7 @@ def main():
         help="threshold for object detection",
         required=False,
         type=float,
-        default=0.55,
+        default=0.60,
     )
     args = parser.parse_args()
 
