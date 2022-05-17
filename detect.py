@@ -46,6 +46,7 @@ def run(
     MAX_AREA_LIMIT = 8_000
     number_of_cans_recolected = 0
     last_vel = 0
+    found_something_of_interest = True
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -97,11 +98,16 @@ def run(
                 motors.stop()
                 continue
 
-            if not my_detections:
-                print("No object detected\nMoviendome a la izquierda\n\n")
+            if not found_something_of_interest:
+                print("Moviendose a la izquierda")
                 motors.move(True, 30, False)
                 motors.move(False, 30, True)
+
+            if not my_detections:
+                print("No object detected\n\n")
+                found_something_of_interest = False
                 continue
+            found_something_of_interest = True
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
             if number_of_cans_recolected > 3:
@@ -117,6 +123,7 @@ def run(
 
             # if the selected can is not the black can, then continue the loop
             if not selected_can.label.find(label_to_find):
+                found_something_of_interest = False
                 continue
 
             # calculate the distance from the centroid to the center of the image
