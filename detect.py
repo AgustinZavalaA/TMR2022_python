@@ -88,7 +88,7 @@ def run(
                 ) = arduino_data
             print(f"{front_ultrasonic=}")
 
-            my_detections = process_detections(image, detector)
+            my_detections = process_detections(image, detector, visualize=True)
             # print(my_detections, end="\n\n")
 
             if check_if_there_is_water(
@@ -214,7 +214,7 @@ def run(
         cv2.destroyAllWindows()
 
 
-def process_detections(image, detector):
+def process_detections(image, detector, visualize=False):
     image = cv2.flip(image, 1)
 
     # Run object detection estimation using the model.
@@ -222,7 +222,7 @@ def process_detections(image, detector):
     detections = detector.detect(rgb_image)
     # get the most important values (label, score, centroid, area) from the detections
     my_detections = []
-    for det in detections:
+    for i, det in enumerate(detections):
         l = det.bounding_box.left
         r = det.bounding_box.right
         t = det.bounding_box.top
@@ -237,6 +237,8 @@ def process_detections(image, detector):
                 get_area_from_box(rgb_image[t:b, l:r]),
             )
         )
+        if visualize:
+            cv2.imshow(f"det {i}", image[t:b, l:r])
     # sort the detections by score
     # return sorted(my_detections, key=lambda x: x.score)
     # return my_detections
