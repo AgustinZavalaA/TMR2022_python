@@ -43,7 +43,7 @@ def run(
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
-    MAX_AREA_LIMIT = 3_000
+    MAX_AREA_LIMIT = 4_000
     number_of_cans_recolected = 0
     last_vel = 0
     found_something_of_interest = True
@@ -95,17 +95,18 @@ def run(
             my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
 
-            if check_if_there_is_water(
-                image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
-            ):
-                print("There is water\n\n")
-                motors.stop()
-                continue
-
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
                 motors.move(True, 40, False)
                 motors.move(False, 40, True)
+
+            if check_if_there_is_water(
+                image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
+            ):
+                print("There is water\n\n")
+                arduino.communicate(data="7")
+                found_something_of_interest = False
+                continue
 
             if not my_detections:
                 print("No object detected\n\n")
