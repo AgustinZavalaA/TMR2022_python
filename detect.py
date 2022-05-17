@@ -139,7 +139,7 @@ def run(
                 else:
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
-                    vel = 55 - map_range(selected_can.area, 0, 15_000, 0, 40)
+                    vel = 50 - map_range(selected_can.area, 0, 15_000, 0, 40)
                     vel = int(vel * 0.2 + last_vel * 0.8)
                     vel = 0 if vel < 0 else vel
                     vel = 100 if vel > 100 else vel
