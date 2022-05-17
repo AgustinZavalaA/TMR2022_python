@@ -295,7 +295,7 @@ def main():
         help="threshold for object detection",
         required=False,
         type=float,
-        default=0.60,
+        default=0.55,
     )
     args = parser.parse_args()
 
