@@ -40,14 +40,16 @@ def main(
                 print("Error al leer la camara")
                 break
 
+            frame = cv2.flip(frame, 1)
+
             water_left_side, water_right_side = water_hugger_areas_relation(
                 frame[300:360, :], hsv_min, hsv_max, cut_zone=60
             )
 
             if water_left_side < 0.7:
                 print("Poca agua en izquierda, moviendose a ella")
-                motors.move(True, 20, True)
-                motors.move(False, 20, False)
+                motors.move(True, 20, False)
+                motors.move(False, 20, True)
                 continue
 
             if water_right_side > 0.4:
