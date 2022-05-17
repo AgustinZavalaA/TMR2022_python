@@ -187,7 +187,9 @@ def run(
                                 # print(image)
                                 # if cv2.waitKey(1) & 0xFF == ord("q"):
                                 #     raise KeyboardInterrupt
-
+                                print(
+                                    f"Probabilidad de que sea un can: {selected_can.score}"
+                                )
                                 if input("Do you want to grab the can? (y/n)") == "y":
                                     pick_up_can(arduino, motors)
                                     number_of_cans_recolected += 1
