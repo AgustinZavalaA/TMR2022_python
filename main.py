@@ -93,7 +93,7 @@ def pick_up_can(arduino: ArduinoComm, motors: Motors) -> None:
     # se acerca a la lata
     motors.move(True, 100, True)
     motors.move(False, 100, True)
-    time.sleep(0.7)
+    time.sleep(0.9)
     motors.stop()
     # cierra la garra
     move_claw(arduino)
