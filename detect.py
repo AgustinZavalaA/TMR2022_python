@@ -104,17 +104,18 @@ def run(
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
             if number_of_cans_recolected > 3:
-
-                continue
+                label_to_find = "goal"
+            else:
+                label_to_find = "can"
 
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
-            while my_detections and not selected_can.label.find("can"):
+            while my_detections and not selected_can.label.find(label_to_find):
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
-            if not selected_can.label.find("can"):
+            if not selected_can.label.find(label_to_find):
                 continue
 
             # calculate the distance from the centroid to the center of the image
@@ -146,6 +147,11 @@ def run(
                     vel = 100 if vel > 100 else vel
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
+                    if label_to_find =="goal":
+                        print("buscando goal nose que hacer")
+                        motors.stop()
+                        continue
+                    
                     if selected_can.area > MAX_AREA_LIMIT:
                         print("Can is too close")
                         # si esta muy cerca, entonces retrocede
