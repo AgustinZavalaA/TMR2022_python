@@ -75,7 +75,7 @@ def run(
             success, image = cap.read()
             if not success:
                 sys.exit("ERROR: Unable to read from webcam.")
-            cv2.imshow(f"det {i}", image)
+            cv2.imshow(f"det", image)
             cv2.waitKey(1)
 
             arduino_data = arduino.communicate(data="1")
