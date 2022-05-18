@@ -3,8 +3,11 @@ import numpy as np
 
 
 def get_goal_centroid(
-    img: np.array, hsv_low: tuple[int, int, int], hsv_high: tuple[int, int, int]
-) -> tuple[int, int]:
+    img: np.array,
+    hsv_low: tuple[int, int, int],
+    hsv_high: tuple[int, int, int],
+    area_threshold: int = 10_000,
+) -> tuple[int, int] | None:
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     thresh = cv2.inRange(hsv_img, hsv_low, hsv_high)
 
@@ -15,7 +18,10 @@ def get_goal_centroid(
     c_x = int(M["m10"] / M["m00"])
     c_y = int(M["m01"] / M["m00"])
 
-    return c_x, c_y
+    if cv2.count_nonzero(thresh) > area_threshold:
+        return c_x, c_y
+
+    return None
 
 
 def main(hsv_low: tuple[int, int, int], hsv_high: tuple[int, int, int]) -> None:
@@ -41,7 +47,14 @@ def main(hsv_low: tuple[int, int, int], hsv_high: tuple[int, int, int]) -> None:
 
 
 if __name__ == "__main__":
+    # casa de grecia
+    # main(
+    #     hsv_low=(143, 128, 36),
+    #     hsv_high=(179, 255, 126),
+    # )
+
+    # polyforum
     main(
-        hsv_low=(143, 128, 36),
-        hsv_high=(179, 255, 126),
+        hsv_low=(0, 148, 40),
+        hsv_high=(179, 255, 121),
     )
