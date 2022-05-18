@@ -97,8 +97,11 @@ def run(
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
-                motors.move(True, 45, False)
-                motors.move(False, 45, True)
+                motors.move(True, 75, False)
+                motors.move(False, 75, True)
+                time.sleep(0.3)
+                motors.stop()
+                time.sleep(0.2)
 
             if check_if_there_is_water(
                 image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
@@ -130,7 +133,6 @@ def run(
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
-            print(f"{selected_can.label.find(label_to_find)==-1}, {label_to_find=}")
             if selected_can.label.find(label_to_find) == -1:
                 found_something_of_interest = False
                 continue
