@@ -153,92 +153,87 @@ def run(
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(f"{distance_from_center=}", end=" ")
 
-                # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
-                # vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 25, 40)
-                vel = map_range(
-                    abs(distance_from_center), 0, image.shape[1] // 2, 35, 60
-                )
-                # apply some smoothing to the velocity
-                vel = int(vel * 0.2 + last_vel * 0.8)
-                last_vel = vel
-                print(f"velocity={vel}")
+            # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
+            # vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 25, 40)
+            vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 35, 60)
+            # apply some smoothing to the velocity
+            vel = int(vel * 0.2 + last_vel * 0.8)
+            last_vel = vel
+            print(f"velocity={vel}")
 
-                # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
-                if abs(distance_from_center) < image.shape[1] // 2 * 0.25:
-                    print(f"stopped {stopped_count}")
-                    print(f"area={selected_can.area}")
-                    stopped_count += 1
-                    # si el robot se detiene por menos de 5 frames, entonces se detiene
-                    if stopped_count < STOPPED_LIMIT:
+            # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
+            if abs(distance_from_center) < image.shape[1] // 2 * 0.25:
+                print(f"stopped {stopped_count}")
+                print(f"area={selected_can.area}")
+                stopped_count += 1
+                # si el robot se detiene por menos de 5 frames, entonces se detiene
+                if stopped_count < STOPPED_LIMIT:
+                    motors.stop()
+                else:
+                    # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
+                    # calcula la velocidad para acercarse al objeto
+                    vel = 48 - map_range(selected_can.area, 0, 15_000, 0, 35)
+                    vel = int(vel * 0.2 + last_vel * 0.8)
+                    vel = 0 if vel < 0 else vel
+                    vel = 100 if vel > 100 else vel
+                    last_vel = vel
+                    # si el area del objeto es mayor que el limite, entonces se detiene
+                    if label_to_find == "goal":
+                        print("buscando goal nose que hacer")
                         motors.stop()
-                    else:
-                        # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
-                        # calcula la velocidad para acercarse al objeto
-                        vel = 48 - map_range(selected_can.area, 0, 15_000, 0, 35)
-                        vel = int(vel * 0.2 + last_vel * 0.8)
-                        vel = 0 if vel < 0 else vel
-                        vel = 100 if vel > 100 else vel
-                        last_vel = vel
-                        # si el area del objeto es mayor que el limite, entonces se detiene
-                        if label_to_find == "goal":
-                            print("buscando goal nose que hacer")
-                            motors.stop()
-                            continue
-                        print(f"Probabilidad de que sea un can: {selected_can.score}")
+                        continue
+                    print(f"Probabilidad de que sea un can: {selected_can.score}")
 
-                        if selected_can.area > MAX_AREA_LIMIT:
-                            print("Can is too close")
-                            # si esta muy cerca, entonces retrocede
-                            if (
-                                front_ultrasonic < 28 and front_ultrasonic < 50
-                            ) or selected_can.area > 20_000:
-                                vel = 35
-                                motors.move(True, vel, False)
-                                motors.move(False, vel, False)
-                                grab_can_count = 0
-                            else:
-                                motors.stop()
-                                arduino.communicate(data="6")
-                                grab_can_count += 1
-                                if grab_can_count > GRAB_CAN_LIMIT:
-                                    grab_can_count = 0
-                                    # image = cv2.circle(
-                                    #     image, selected_can.centroid, 5, (0, 0, 255), -1
-                                    # )
-                                    # cv2.imshow("image", image)
-                                    # print(image)
-                                    # if cv2.waitKey(1) & 0xFF == ord("q"):
-                                    #     raise KeyboardInterrupt
-                                    if (
-                                        input("Do you want to grab the can? (y/n)")
-                                        == "y"
-                                    ):
-                                        pick_up_can(arduino, motors)
-                                        number_of_cans_recolected += 1
-
-                        else:
-                            # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
-                            print(f"vel forward {vel}")
-                            motors.move(True, vel, True)
-                            motors.move(False, vel, True)
+                    if selected_can.area > MAX_AREA_LIMIT:
+                        print("Can is too close")
+                        # si esta muy cerca, entonces retrocede
+                        if (
+                            front_ultrasonic < 28 and front_ultrasonic < 50
+                        ) or selected_can.area > 20_000:
+                            vel = 35
+                            motors.move(True, vel, False)
+                            motors.move(False, vel, False)
                             grab_can_count = 0
+                        else:
+                            motors.stop()
+                            arduino.communicate(data="6")
+                            grab_can_count += 1
+                            if grab_can_count > GRAB_CAN_LIMIT:
+                                grab_can_count = 0
+                                # image = cv2.circle(
+                                #     image, selected_can.centroid, 5, (0, 0, 255), -1
+                                # )
+                                # cv2.imshow("image", image)
+                                # print(image)
+                                # if cv2.waitKey(1) & 0xFF == ord("q"):
+                                #     raise KeyboardInterrupt
+                                if input("Do you want to grab the can? (y/n)") == "y":
+                                    pick_up_can(arduino, motors)
+                                    number_of_cans_recolected += 1
 
-                # si el objeto esta a la derecha, se mueve a la izquierda
-                elif distance_from_center < 0:
-                    stopped_count = 0
-                    print("izquierda")
-                    # motors.move(True, vel, False)
-                    motors.move(True, 0, False)
-                    motors.move(False, vel, True)
-                # si el objeto esta a la izquierda, se mueve a la derecha
-                elif distance_from_center > 0:
-                    stopped_count = 0
-                    print("derecha")
-                    motors.move(True, vel, True)
-                    # motors.move(False, vel, False)
-                    motors.move(False, 0, False)
+                    else:
+                        # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
+                        print(f"vel forward {vel}")
+                        motors.move(True, vel, True)
+                        motors.move(False, vel, True)
+                        grab_can_count = 0
 
-                print("\n\n")
+            # si el objeto esta a la derecha, se mueve a la izquierda
+            elif distance_from_center < 0:
+                stopped_count = 0
+                print("izquierda")
+                # motors.move(True, vel, False)
+                motors.move(True, 0, False)
+                motors.move(False, vel, True)
+            # si el objeto esta a la izquierda, se mueve a la derecha
+            elif distance_from_center > 0:
+                stopped_count = 0
+                print("derecha")
+                motors.move(True, vel, True)
+                # motors.move(False, vel, False)
+                motors.move(False, 0, False)
+
+            print("\n\n")
 
     except KeyboardInterrupt:
         # Stop the motors when the user presses ctrl-c
