@@ -97,11 +97,8 @@ def run(
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
-                motors.move(True, 75, False)
-                motors.move(False, 75, True)
-                time.sleep(0.7)
-                motors.stop()
-                time.sleep(2)
+                motors.move(True, 45, False)
+                motors.move(False, 45, True)
 
             if check_if_there_is_water(
                 image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
