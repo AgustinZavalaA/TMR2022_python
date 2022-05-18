@@ -101,7 +101,7 @@ def run(
                 motors.move(False, 75, True)
                 time.sleep(0.7)
                 motors.stop()
-                time.sleep(0.2)
+                time.sleep(2)
 
             if check_if_there_is_water(
                 image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255)
