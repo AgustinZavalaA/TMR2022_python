@@ -7,7 +7,7 @@ def get_goal_centroid(
     hsv_low: tuple[int, int, int],
     hsv_high: tuple[int, int, int],
     area_threshold: int = 10_000,
-) -> tuple[int, int] | None:
+) -> tuple[int, int]:
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     thresh = cv2.inRange(hsv_img, hsv_low, hsv_high)
 
