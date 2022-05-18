@@ -136,6 +136,9 @@ def run(
 
                     distance_from_center = goal_centroid[0] - image.shape[1] // 2
                     print(f"{distance_from_center=}")
+                else:
+                    found_something_of_interest = False
+                    continue
             else:
                 selected_can = my_detections.pop(0)
                 while my_detections and (
