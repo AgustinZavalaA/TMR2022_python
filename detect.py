@@ -109,12 +109,6 @@ def run(
                 found_something_of_interest = False
                 continue
 
-            if not my_detections:
-                print("No object detected\n\n")
-                found_something_of_interest = False
-                continue
-            found_something_of_interest = True
-
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
             if number_of_cans_recolected > 3:
                 if get_goal_centroid(
@@ -129,6 +123,13 @@ def run(
                 else:
                     found_something_of_interest = False
                 continue
+
+            if not my_detections:
+                print("No object detected\n\n")
+                found_something_of_interest = False
+                continue
+            found_something_of_interest = True
+
             #     label_to_find = "goal"
             # else:
             #     label_to_find = "can"
