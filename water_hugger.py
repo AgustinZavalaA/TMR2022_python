@@ -48,14 +48,14 @@ def main(
 
             if water_left_side < 0.7:
                 print("Poca agua en izquierda, moviendose a ella")
-                motors.move(True, 20, False)
-                motors.move(False, 20, True)
+                motors.move(True, velocitiy, False)
+                motors.move(False, velocitiy, True)
                 continue
 
             if water_right_side > 0.4:
                 print("Mucha agua en derecha, moviendose a derecha")
-                motors.move(True, 20, True)
-                motors.move(False, 20, False)
+                motors.move(True, velocitiy, True)
+                motors.move(False, velocitiy, False)
                 continue
 
             print("Abrazando awa")
