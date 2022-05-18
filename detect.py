@@ -14,6 +14,7 @@ from image_area import get_area_from_box
 from modules.ArduinoSerialComm import ArduinoComm
 from walk_to_water import check_if_there_is_water
 from main import pick_up_can
+from goal_centroid import get_goal_centroid
 
 
 class my_detection(NamedTuple):
@@ -44,7 +45,7 @@ def run(
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 0  # TODO: change to 0
+    number_of_cans_recolected = 99  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
 
@@ -116,9 +117,21 @@ def run(
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
             if number_of_cans_recolected > 3:
-                label_to_find = "goal"
-            else:
-                label_to_find = "can"
+                if get_goal_centroid(
+                    image,
+                    hsv_low=(0, 148, 40),
+                    hsv_high=(179, 255, 121),
+                    area_threshold=10_000,
+                ):
+                    print("Found the goal\n\n")
+                    motors.stop()
+
+                else:
+                    found_something_of_interest = False
+                continue
+            #     label_to_find = "goal"
+            # else:
+            #     label_to_find = "can"
 
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
