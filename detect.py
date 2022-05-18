@@ -44,7 +44,7 @@ def run(
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 99 # TODO: change to 0
+    number_of_cans_recolected = 99  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
 
@@ -129,6 +129,7 @@ def run(
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
+            print(f"{selected_can.label.find(label_to_find)=}, {label_to_find=}")
             if not selected_can.label.find(label_to_find):
                 found_something_of_interest = False
                 continue
