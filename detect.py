@@ -99,7 +99,7 @@ def run(
                 print("Moviendose a la izquierda")
                 motors.move(True, 75, False)
                 motors.move(False, 75, True)
-                time.sleep(0.3)
+                time.sleep(0.7)
                 motors.stop()
                 time.sleep(0.2)
 
