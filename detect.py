@@ -129,7 +129,7 @@ def run(
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
-            print(f"{selected_can.label.find(label_to_find)=}, {label_to_find=}")
+            print(f"{not selected_can.label.find(label_to_find)=}, {label_to_find=}")
             if not selected_can.label.find(label_to_find):
                 found_something_of_interest = False
                 continue
