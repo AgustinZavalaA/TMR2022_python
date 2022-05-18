@@ -27,7 +27,7 @@ def main(
     hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int], visible: bool = False
 ):
     motors = Motors()
-    velocitiy = 40
+    velocitiy = 70
 
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 480)
