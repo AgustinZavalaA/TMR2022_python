@@ -253,6 +253,7 @@ def process_detections(image, detector):
                 get_area_from_box(rgb_image[t:b, l:r]),
             )
         )
+    print(my_detections)
     # sort the detections by score
     # return sorted(my_detections, key=lambda x: x.score)
     # return my_detections
