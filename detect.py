@@ -44,7 +44,7 @@ def run(
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 99  # TODO: change to 0
+    number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
 
@@ -299,7 +299,7 @@ def main():
         help="threshold for object detection",
         required=False,
         type=float,
-        default=0.5,
+        default=0.60,
     )
     args = parser.parse_args()
 
