@@ -35,7 +35,7 @@ class Motors:
 
     def stop(self) -> None:
         # GPIO.output(STBY, False)
-        dc = 0
+        dc = 1
         self.pwm_a.ChangeDutyCycle(dc)
         self.pwm_b.ChangeDutyCycle(dc)
 
