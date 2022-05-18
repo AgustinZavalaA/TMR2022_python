@@ -11,6 +11,9 @@ def get_goal_centroid(
     hsv_img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     thresh = cv2.inRange(hsv_img, hsv_low, hsv_high)
 
+    if cv2.count_nonzero(thresh) < area_threshold:
+        return None
+
     # calculate moments of binary image
     M = cv2.moments(thresh)
 
@@ -18,10 +21,7 @@ def get_goal_centroid(
     c_x = int(M["m10"] / M["m00"])
     c_y = int(M["m01"] / M["m00"])
 
-    if cv2.count_nonzero(thresh) > area_threshold:
-        return c_x, c_y
-
-    return None
+    return c_x, c_y
 
 
 def main(hsv_low: tuple[int, int, int], hsv_high: tuple[int, int, int]) -> None:
