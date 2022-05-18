@@ -124,13 +124,14 @@ def run(
             # select the black can with the highest score
             selected_can = my_detections.pop(0)
             while my_detections and (
-                not selected_can.label.find(label_to_find) or selected_can.area > 30_000
+                selected_can.label.find(label_to_find) == -1
+                or selected_can.area > 30_000
             ):
                 selected_can = my_detections.pop(0)
 
             # if the selected can is not the black can, then continue the loop
-            print(f"{not selected_can.label.find(label_to_find)=}, {label_to_find=}")
-            if not selected_can.label.find(label_to_find):
+            print(f"{selected_can.label.find(label_to_find)==-1}, {label_to_find=}")
+            if selected_can.label.find(label_to_find) == -1:
                 found_something_of_interest = False
                 continue
 
