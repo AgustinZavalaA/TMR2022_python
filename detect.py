@@ -13,7 +13,7 @@ from modules.Motors import Motors
 from image_area import get_area_from_box
 from modules.ArduinoSerialComm import ArduinoComm
 from walk_to_water import check_if_there_is_water
-from main import pick_up_can
+from main import pick_up_can, move_tray
 from goal_centroid import get_goal_centroid
 
 
@@ -187,6 +187,13 @@ def run(
                         else:
                             print("goal encontrado")
                             motors.stop()
+                            move_tray(arduino)
+                            time.sleep(0.5)
+                            move_tray(arduino)
+                            time.sleep(0.5)
+                            move_tray(arduino)
+                            time.sleep(0.5)
+                            move_tray(arduino)
 
                         continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
