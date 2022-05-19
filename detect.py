@@ -141,7 +141,11 @@ def run(
                     found_something_of_interest = False
                     continue
             else:
-                selected_can = my_detections.pop(0)
+                if my_detections:
+                    selected_can = my_detections.pop(0)
+                else:
+                    found_something_of_interest = False
+                    continue
                 while my_detections and (
                     selected_can.label.find(label_to_find) == -1
                     or selected_can.area > 30_000
