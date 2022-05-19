@@ -1,6 +1,6 @@
 import time
 
-from ..modules.ArduinoSerialComm import ArduinoComm
+from modules.ArduinoSerialComm import ArduinoComm
 from p1_desplazamiento import main as desplazamiento
 
 
