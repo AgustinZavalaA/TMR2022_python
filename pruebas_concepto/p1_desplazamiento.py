@@ -38,6 +38,7 @@ def main(
                 print("Saliendo del programa")
                 motors.stop()
                 motors.disable()
+                arduino.close()
                 exit(0)
 
             ret, frame = cap.read()
