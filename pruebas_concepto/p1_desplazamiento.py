@@ -20,7 +20,6 @@ def check_if_there_is_water(
 
 
 def main(
-    arduino: ArduinoComm,
     hsv_min: tuple[int, int, int],
     hsv_max: tuple[int, int, int],
     visible: bool = False,
@@ -34,14 +33,6 @@ def main(
 
     try:
         while cap.isOpened():
-            data = arduino.communicate(data="1")
-            print(data)
-            if data is not None and data[0] == 0:
-                print("Saliendo del programa")
-                motors.stop()
-                motors.disable()
-                arduino.close()
-                exit(0)
 
             ret, frame = cap.read()
             if not ret:
