@@ -134,7 +134,7 @@ def run(
                 if goal_centroid:
                     print("Found the goal\n\n")
 
-                    distance_from_center = goal_centroid[0] - image.shape[1] // 2
+                    distance_from_center = image.shape[1] // 2 - goal_centroid[0]
                     print(f"{distance_from_center=}")
                 else:
                     found_something_of_interest = False
