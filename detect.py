@@ -39,11 +39,15 @@ def run(
     num_threads: int,
     score_threshold: float,
 ) -> None:
+    # water hsv
+    water_hsv = ((110, 38, 0), (131, 255, 255))
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
+    LOST_ROBOT_LIMIT = 100
+    lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
     number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
@@ -96,15 +100,32 @@ def run(
             my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
 
+            if lost_robot_count > LOST_ROBOT_LIMIT:
+                # avanza enfrente hasta que encuentre agua
+                motors.move(True, 50, True)
+                motors.move(False, 50, True)
+
+                if check_if_there_is_water(
+                    img=image, hsv_min=water_hsv[0], hsv_max=water_hsv[1]
+                ):
+                    lost_robot_count = 0
+                    print("Found water")
+
+                continue
+
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
+                print(f"{lost_robot_count=}")
                 motors.move(True, 45, False)
                 motors.move(False, 45, True)
+                lost_robot_count += 1
+
+            lost_robot_count = 0
 
             if check_if_there_is_water(
                 image[300:360, :],
-                hsv_min=(110, 38, 0),
-                hsv_max=(131, 255, 255),
+                hsv_min=water_hsv[0],
+                hsv_max=water_hsv[1],
                 threshold=0.5,
             ):
                 print("There is water\n\n")
@@ -114,13 +135,13 @@ def run(
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
 
-            if not my_detections and number_of_cans_recolected < 2:
+            if not my_detections and number_of_cans_recolected < 3:
                 print("No object detected\n\n")
                 found_something_of_interest = False
                 continue
             found_something_of_interest = True
 
-            if number_of_cans_recolected >= 2:
+            if number_of_cans_recolected >= 3:
                 label_to_find = "goal"
             else:
                 label_to_find = "can"
@@ -128,7 +149,7 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
 
-            if number_of_cans_recolected >= 2:
+            if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
                     image,
                     hsv_low=(0, 148, 40),
