@@ -54,6 +54,8 @@ def run(
     found_something_of_interest = True
     STUCK_LIMIT = 40
     stuck_count = 0
+    LOST_ROBOT_ADVANCE_LIMIT = 50
+    lost_robot_advance_count = 0
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -107,22 +109,32 @@ def run(
                 motors.move(True, 50, True)
                 motors.move(False, 50, True)
 
-                if front_ultrasonic < 45:
-                    motors.stop()
-
-                    motors.move(True, 100, False)
-                    motors.move(False, 100, False)
-                    time.sleep(1)
-
-                    motors.move(True, 50, True)
-                    motors.move(False, 50, False)
-                    time.sleep(1)
-
-                if check_if_there_is_water(
-                    img=image, hsv_min=water_hsv[0], hsv_max=water_hsv[1]
-                ):
+                if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT:
+                    lost_robot_advance_count = 0
                     lost_robot_count = 0
-                    print("Found water")
+                    found_something_of_interest = True
+                    continue
+
+                motors.move(True, 50, True)
+                motors.move(False, 50, True)
+                lost_robot_advance_count += 1
+
+                # if front_ultrasonic < 45:
+                #     motors.stop()
+
+                #     motors.move(True, 100, False)
+                #     motors.move(False, 100, False)
+                #     time.sleep(1)
+
+                #     motors.move(True, 50, True)
+                #     motors.move(False, 50, False)
+                #     time.sleep(1)
+
+                # if check_if_there_is_water(
+                #     img=image, hsv_min=water_hsv[0], hsv_max=water_hsv[1]
+                # ):
+                #     lost_robot_count = 0
+                #     print("Found water")
 
                 continue
 
