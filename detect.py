@@ -167,12 +167,16 @@ def run(
             # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
             if abs(distance_from_center) < image.shape[1] // 2 * 0.25:
                 print(f"stopped {stopped_count}")
-                print(f"area={selected_can.area}")
+                # print(f"area={selected_can.area}")
                 stopped_count += 1
                 # si el robot se detiene por menos de 5 frames, entonces se detiene
                 if stopped_count < STOPPED_LIMIT:
                     motors.stop()
                 else:
+                    if label_to_find == "goal":
+                        print("buscando goal nose que hacer")
+                        motors.stop()
+                        continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
                     vel = 48 - map_range(selected_can.area, 0, 15_000, 0, 35)
@@ -181,10 +185,6 @@ def run(
                     vel = 100 if vel > 100 else vel
                     last_vel = vel
                     # si el area del objeto es mayor que el limite, entonces se detiene
-                    if label_to_find == "goal":
-                        print("buscando goal nose que hacer")
-                        motors.stop()
-                        continue
                     print(f"Probabilidad de que sea un can: {selected_can.score}")
 
                     if selected_can.area > MAX_AREA_LIMIT:
