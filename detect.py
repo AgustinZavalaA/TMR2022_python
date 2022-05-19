@@ -177,9 +177,13 @@ def run(
                     if label_to_find == "goal":
                         print("buscando goal nose que hacer")
 
-                        while front_ultrasonic > 7:
+                        while front_ultrasonic > 18:
                             motors.move(True, 40, True)
                             motors.move(False, 40, True)
+
+                        while front_ultrasonic > 6:
+                            motors.move(True, 20, True)
+                            motors.move(False, 20, True)
 
                         print("goal encontrado")
                         motors
