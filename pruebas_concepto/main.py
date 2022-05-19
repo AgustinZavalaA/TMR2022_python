@@ -2,6 +2,7 @@ import time
 
 from ArduinoSerialComm import ArduinoComm
 from p1_desplazamiento import main as desplazamiento
+from detect import main as evadir_mar
 
 
 def main():
@@ -23,6 +24,7 @@ def main():
                     # desplazamiento(arduino, hsv_min=(96, 40, 88), hsv_max=(112, 243, 255))
                 if mode == 2:
                     print("Prueba de evasion de mar")
+                    evadir_mar()
                 if mode == 3:
                     print("Prueba de evasion de objetos")
                 if mode == 4:
