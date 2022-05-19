@@ -194,6 +194,7 @@ def run(
             vel = int(vel * 0.2 + last_vel * 0.8)
 
             if vel == last_vel:
+                print(f"{stuck_count}")
                 stuck_count += 1
                 if stuck_count > STUCK_LIMIT:
                     print("Stuck")
