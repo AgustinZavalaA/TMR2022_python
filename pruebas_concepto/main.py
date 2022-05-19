@@ -49,6 +49,7 @@ def main():
                             motors.move(True, velocity, True)
                             motors.move(False, velocity, True)
                             print("No water detected")
+                        time.sleep(0.1)
                 if mode == 2:
                     print("Prueba de evasion de mar")
                 if mode == 3:
