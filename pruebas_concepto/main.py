@@ -31,25 +31,18 @@ def main():
                     hsv_min = (110, 38, 0)
                     hsv_max = (131, 255, 255)
                     velocity = 50
-                    while cap.isOpened():
-                        time.sleep(0.1)
-                        data2 = arduino.communicate(data="1")
-                        print(data2)
-                        if data2 is not None and data2[0] == 0:
-                            raise KeyboardInterrupt
+                    ret, frame = cap.read()
+                    if not ret:
+                        print("Error al leer la camara")
+                        break
 
-                        ret, frame = cap.read()
-                        if not ret:
-                            print("Error al leer la camara")
-                            break
-
-                        if check_if_there_is_water(frame[300:360, :], hsv_min, hsv_max):
-                            motors.stop()
-                            print("Water detected")
-                        else:
-                            motors.move(True, velocity, True)
-                            motors.move(False, velocity, True)
-                            print("No water detected")
+                    if check_if_there_is_water(frame[300:360, :], hsv_min, hsv_max):
+                        motors.stop()
+                        print("Water detected")
+                    else:
+                        motors.move(True, velocity, True)
+                        motors.move(False, velocity, True)
+                        print("No water detected")
                 if mode == 2:
                     print("Prueba de evasion de mar")
                 if mode == 3:
