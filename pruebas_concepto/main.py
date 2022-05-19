@@ -6,6 +6,7 @@ from p1_desplazamiento import main as desplazamiento
 
 def main():
     arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    time.sleep(2)
     while True:
         change, mode, _ = arduino.communicate(data="1")
         if change == 1:
