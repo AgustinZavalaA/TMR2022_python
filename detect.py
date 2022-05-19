@@ -107,6 +107,7 @@ def run(
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
                 print("Lost robot")
+                found_something_of_interest = True
                 if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT or (
                     label_to_find in [d.label for d in my_detections]
                 ):
