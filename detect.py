@@ -181,12 +181,12 @@ def run(
                             motors.move(True, 40, True)
                             motors.move(False, 40, True)
 
-                        if front_ultrasonic > 6:
+                        elif front_ultrasonic > 6:
                             motors.move(True, 20, True)
                             motors.move(False, 20, True)
-
-                        print("goal encontrado")
-                        motors.stop()
+                        else:
+                            print("goal encontrado")
+                            motors.stop()
 
                         continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
