@@ -111,13 +111,13 @@ def run(
 
             # buscamos primero la zona de deposito si el numero de canes recolectados es mayor que 3
 
-            if not my_detections and number_of_cans_recolected < 3:
+            if not my_detections and number_of_cans_recolected < 2:
                 print("No object detected\n\n")
                 found_something_of_interest = False
                 continue
             found_something_of_interest = True
 
-            if number_of_cans_recolected >= 3:
+            if number_of_cans_recolected >= 2:
                 label_to_find = "goal"
             else:
                 label_to_find = "can"
@@ -125,7 +125,7 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
 
-            if number_of_cans_recolected >= 3:
+            if number_of_cans_recolected >= 2:
                 goal_centroid = get_goal_centroid(
                     image,
                     hsv_low=(0, 148, 40),
@@ -245,9 +245,9 @@ def run(
                                 # print(image)
                                 # if cv2.waitKey(1) & 0xFF == ord("q"):
                                 #     raise KeyboardInterrupt
-                                if input("Do you want to grab the can? (y/n)") == "y":
-                                    pick_up_can(arduino, motors)
-                                    number_of_cans_recolected += 1
+                                # if input("Do you want to grab the can? (y/n)") == "y":
+                                pick_up_can(arduino, motors)
+                                number_of_cans_recolected += 1
 
                     else:
                         # si el area del objeto es menor que el limite, entonces se mueve con la velocidad calculada
