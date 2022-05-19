@@ -176,7 +176,14 @@ def run(
                 else:
                     if label_to_find == "goal":
                         print("buscando goal nose que hacer")
-                        motors.stop()
+
+                        while front_ultrasonic > 7:
+                            motors.move(True, 40, True)
+                            motors.move(False, 40, True)
+
+                        print("goal encontrado")
+                        motors
+
                         continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
                     # calcula la velocidad para acercarse al objeto
