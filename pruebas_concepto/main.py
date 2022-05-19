@@ -5,7 +5,7 @@ import numpy as np
 from ArduinoSerialComm import ArduinoComm
 from Motors import Motors
 
-from pruebas_concepto.p1_desplazamiento import check_if_there_is_water
+from p1_desplazamiento import check_if_there_is_water
 
 
 def main():
