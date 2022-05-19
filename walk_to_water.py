@@ -22,6 +22,8 @@ def check_if_there_is_water(
 def main(
     hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int], visible: bool = False
 ):
+    arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
+    time.sleep(2)
     motors = Motors()
     velocitiy = 50
 
@@ -38,6 +40,7 @@ def main(
 
             if check_if_there_is_water(frame[300:360, :], hsv_min, hsv_max):
                 motors.stop()
+                arduino.communicate(data="1500")
                 print("Water detected")
             else:
                 motors.move(True, velocitiy, True)
