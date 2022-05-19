@@ -33,9 +33,9 @@ def main():
                     velocity = 50
                     while cap.isOpened():
                         time.sleep(0.1)
-                        data = arduino.communicate(data="1")
-                        print(data)
-                        if data is not None and data[0] == 0:
+                        data2 = arduino.communicate(data="1")
+                        print(data2)
+                        if data2 is not None and data2[0] == 0:
                             raise KeyboardInterrupt
 
                         ret, frame = cap.read()
