@@ -56,6 +56,7 @@ def run(
     stuck_count = 0
     LOST_ROBOT_ADVANCE_LIMIT = 15
     lost_robot_advance_count = 0
+    label_to_find = "goal"
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -109,7 +110,9 @@ def run(
                 motors.move(True, 50, True)
                 motors.move(False, 50, True)
 
-                if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT:
+                if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT or (
+                    label_to_find in [d.label for d in my_detections]
+                ):
                     lost_robot_advance_count = 0
                     lost_robot_count = 0
                     found_something_of_interest = True
@@ -135,8 +138,6 @@ def run(
                 # ):
                 #     lost_robot_count = 0
                 #     print("Found water")
-
-                continue
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
@@ -167,7 +168,7 @@ def run(
             if number_of_cans_recolected >= 3:
                 label_to_find = "goal"
             else:
-                label_to_find = "can"
+                label_to_find = "black_can"
 
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
