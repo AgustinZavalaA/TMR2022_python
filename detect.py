@@ -54,7 +54,7 @@ def run(
     found_something_of_interest = True
     STUCK_LIMIT = 40
     stuck_count = 0
-    LOST_ROBOT_ADVANCE_LIMIT = 50
+    LOST_ROBOT_ADVANCE_LIMIT = 15
     lost_robot_advance_count = 0
 
     # Start the motors and variables for motor control and arduino communication
