@@ -198,12 +198,14 @@ def run(
                             motors.move(True, 100, False)
                             motors.move(False, 100, False)
 
-                            time.sleep(1)
+                            time.sleep(3)
 
                             motors.move(True, 100, True)
                             motors.move(False, 100, False)
 
-                            time.sleep(0.5)
+                            time.sleep(1)
+
+                            number_of_cans_recolected = 0
 
                         continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
