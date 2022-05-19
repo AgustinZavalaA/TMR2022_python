@@ -167,7 +167,7 @@ def run(
             # si el objeto esta en la mitad de la imagen (dentro del 20%), no hace nada
             if abs(distance_from_center) < image.shape[1] // 2 * 0.25:
                 print(f"stopped {stopped_count}")
-                # print(f"area={selected_can.area}")
+                print(f"area={selected_can.area}")
                 stopped_count += 1
                 # si el robot se detiene por menos de 5 frames, entonces se detiene
                 if stopped_count < STOPPED_LIMIT:
