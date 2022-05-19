@@ -40,7 +40,7 @@ def run(
     score_threshold: float,
 ) -> None:
     # water hsv
-    water_hsv = ((110, 38, 0), (131, 255, 255))
+    water_hsv = ((100, 46, 171), (179, 255, 255))
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 6
