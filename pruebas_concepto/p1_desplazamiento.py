@@ -35,6 +35,7 @@ def main(
     try:
         while cap.isOpened():
             data = arduino.communicate(data="1")
+            print(data)
             if data is not None and data[0] == 0:
                 print("Saliendo del programa")
                 motors.stop()
