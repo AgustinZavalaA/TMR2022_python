@@ -125,7 +125,7 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
 
-            if number_of_cans_recolected > 3:
+            if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
                     image,
                     hsv_low=(0, 148, 40),
