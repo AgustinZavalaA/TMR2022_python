@@ -102,7 +102,10 @@ def run(
                 motors.move(False, 45, True)
 
             if check_if_there_is_water(
-                image[300:360, :], hsv_min=(110, 38, 0), hsv_max=(131, 255, 255), threshold=0.5
+                image[300:360, :],
+                hsv_min=(110, 38, 0),
+                hsv_max=(131, 255, 255),
+                threshold=0.5,
             ):
                 print("There is water\n\n")
                 arduino.communicate(data="7")
@@ -246,6 +249,7 @@ def run(
                                 # if cv2.waitKey(1) & 0xFF == ord("q"):
                                 #     raise KeyboardInterrupt
                                 # if input("Do you want to grab the can? (y/n)") == "y":
+                                time.sleep(1)
                                 pick_up_can(arduino, motors)
                                 number_of_cans_recolected += 1
 
