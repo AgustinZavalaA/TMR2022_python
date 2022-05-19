@@ -16,7 +16,7 @@ def check_if_there_is_water(
     water_roi = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     masked_water = cv2.inRange(water_roi, hsv_min, hsv_max)
 
-    print(np.count_nonzero(masked_water) > img.shape[0] * img.shape[1] * threshold)
+    print(np.count_nonzero(masked_water), img.shape[0] * img.shape[1] * threshold)
 
     return np.count_nonzero(masked_water) > img.shape[0] * img.shape[1] * threshold
 
