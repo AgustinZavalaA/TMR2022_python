@@ -32,6 +32,7 @@ def main():
                     hsv_max = (131, 255, 255)
                     velocity = 50
                     while cap.isOpened():
+                        time.sleep(0.1)
                         data = arduino.communicate(data="1")
                         print(data)
                         if data is not None and data[0] == 0:
@@ -49,7 +50,6 @@ def main():
                             motors.move(True, velocity, True)
                             motors.move(False, velocity, True)
                             print("No water detected")
-                        time.sleep(0.1)
                 if mode == 2:
                     print("Prueba de evasion de mar")
                 if mode == 3:
