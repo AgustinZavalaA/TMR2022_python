@@ -103,8 +103,8 @@ def run(
 
             if check_if_there_is_water(
                 image[300:360, :],
-                hsv_min=(32, 0, 112),
-                hsv_max=(136, 144, 247),
+                hsv_min=(110, 38, 0),
+                hsv_max=(131, 255, 255),
                 threshold=0.5,
             ):
                 print("There is water\n\n")
