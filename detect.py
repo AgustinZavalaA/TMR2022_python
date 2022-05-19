@@ -117,9 +117,10 @@ def run(
                 continue
             found_something_of_interest = True
 
-            #     label_to_find = "goal"
-            # else:
-            #     label_to_find = "can"
+            if number_of_cans_recolected >= 3:
+                label_to_find = "goal"
+            else:
+                label_to_find = "can"
 
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
