@@ -52,6 +52,8 @@ def run(
     number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
+    STUCK_LIMIT = 20
+    stuck_count = 0
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -120,8 +122,6 @@ def run(
                 motors.move(False, 45, True)
                 lost_robot_count += 1
 
-            lost_robot_count = 0
-
             if check_if_there_is_water(
                 image[300:360, :],
                 hsv_min=water_hsv[0],
@@ -185,11 +185,27 @@ def run(
                 distance_from_center = selected_can.centroid[0] - image.shape[1] // 2
                 print(f"{distance_from_center=}", end=" ")
 
+            lost_robot_count = 0
+
             # calculate the velocity using the scaled distance from 20 to 50 percent of the motors power
             # vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 25, 40)
             vel = map_range(abs(distance_from_center), 0, image.shape[1] // 2, 35, 60)
             # apply some smoothing to the velocity
             vel = int(vel * 0.2 + last_vel * 0.8)
+
+            if vel == last_vel:
+                stuck_count += 1
+                if stuck_count > STUCK_LIMIT:
+                    print("Stuck")
+                    motors.move(True, 100, True)
+                    motors.move(False, 100, False)
+                    time.sleep(2)
+                    motors.move(True, 100, False)
+                    motors.move(False, 100, True)
+                    time.sleep(2)
+                    stuck_count = 0
+                    continue
+
             last_vel = vel
             print(f"velocity={vel}")
 
