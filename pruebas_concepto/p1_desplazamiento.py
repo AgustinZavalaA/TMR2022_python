@@ -20,7 +20,10 @@ def check_if_there_is_water(
 
 
 def main(
-    hsv_min: tuple[int, int, int], hsv_max: tuple[int, int, int], visible: bool = False
+    arduino: ArduinoComm,
+    hsv_min: tuple[int, int, int],
+    hsv_max: tuple[int, int, int],
+    visible: bool = False,
 ):
     motors = Motors()
     velocitiy = 50
@@ -31,6 +34,12 @@ def main(
 
     try:
         while cap.isOpened():
+            if arduino.communicate(data="1")[0] == 1:
+                print("Saliendo del programa")
+                motors.stop()
+                motors.disable()
+                exit(0)
+
             ret, frame = cap.read()
             if not ret:
                 print("Error al leer la camara")

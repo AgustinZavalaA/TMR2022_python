@@ -1,6 +1,7 @@
 import time
 
 from ..modules.ArduinoSerialComm import ArduinoComm
+from p1_desplazamiento import main as desplazamiento
 
 
 def main():
@@ -12,6 +13,7 @@ def main():
                 continue
             if mode == 1:
                 print("Prueba de desplazamiendo en lado menor")
+                desplazamiento(arduino, hsv_min=(96, 40, 88), hsv_max=(112, 243, 255))
             if mode == 2:
                 print("Prueba de evasion de mar")
             if mode == 3:
