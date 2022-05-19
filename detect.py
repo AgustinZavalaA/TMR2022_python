@@ -106,10 +106,7 @@ def run(
             # print(my_detections, end="\n\n")
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
-                # avanza enfrente hasta que encuentre agua
-                motors.move(True, 50, True)
-                motors.move(False, 50, True)
-
+                print("Lost robot")
                 if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT or (
                     label_to_find in [d.label for d in my_detections]
                 ):
