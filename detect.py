@@ -105,7 +105,7 @@ def run(
                 image[300:360, :],
                 hsv_min=(32, 0, 112),
                 hsv_max=(136, 144, 247),
-                threshold=0.7,
+                threshold=0.5,
             ):
                 print("There is water\n\n")
                 arduino.communicate(data="7")
