@@ -195,7 +195,15 @@ def run(
                             time.sleep(0.5)
                             move_tray(arduino)
 
-                            motors.move
+                            motors.move(True, 100, False)
+                            motors.move(False, 100, False)
+
+                            time.sleep(1)
+
+                            motors.move(True, 100, True)
+                            motors.move(False, 100, False)
+
+                            time.sleep(0.5)
 
                         continue
                     # si el robot se detiene por mas de 5 frames, entonces se acerca al objeto
