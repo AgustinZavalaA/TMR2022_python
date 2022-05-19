@@ -11,7 +11,7 @@ def check_if_there_is_water(
     img: np.array,
     hsv_min: tuple[int, int, int],
     hsv_max: tuple[int, int, int],
-    threshold: int = 0.6,
+    threshold: float = 0.6,
 ) -> bool:
     water_roi = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     masked_water = cv2.inRange(water_roi, hsv_min, hsv_max)

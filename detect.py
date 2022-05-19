@@ -52,7 +52,7 @@ def run(
     number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
-    STUCK_LIMIT = 50
+    STUCK_LIMIT = 40
     stuck_count = 0
 
     # Start the motors and variables for motor control and arduino communication
@@ -106,6 +106,17 @@ def run(
                 # avanza enfrente hasta que encuentre agua
                 motors.move(True, 50, True)
                 motors.move(False, 50, True)
+
+                if front_ultrasonic < 45:
+                    motors.stop()
+
+                    motors.move(True, 100, False)
+                    motors.move(False, 100, False)
+                    time.sleep(1)
+
+                    motors.move(True, 50, True)
+                    motors.move(False, 50, False)
+                    time.sleep(1)
 
                 if check_if_there_is_water(
                     img=image, hsv_min=water_hsv[0], hsv_max=water_hsv[1]
@@ -203,7 +214,7 @@ def run(
                     time.sleep(2)
                     motors.move(True, 100, False)
                     motors.move(False, 100, True)
-                    time.sleep(1)
+                    time.sleep(0.7)
                     stuck_count = 0
                     continue
 
