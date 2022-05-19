@@ -8,7 +8,9 @@ def main():
     arduino = ArduinoComm(port="/dev/ttyACM0", baudrate=115200, timeout=0.1)
     time.sleep(2)
     while True:
-        change, mode, _ = arduino.communicate(data="1")
+        data = arduino.communicate(data="1")
+        if data is not None:
+            change, mode, u1, magnitud, angle, x_component = data
         if change == 1:
             if mode == 0:
                 continue
