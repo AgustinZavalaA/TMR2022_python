@@ -46,13 +46,13 @@ def run(
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
-    LOST_ROBOT_LIMIT = 25
+    LOST_ROBOT_LIMIT = 50
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
     number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
-    STUCK_LIMIT = 20
+    STUCK_LIMIT = 50
     stuck_count = 0
 
     # Start the motors and variables for motor control and arduino communication
