@@ -234,17 +234,15 @@ def run(
                 stuck_count += 1
                 if stuck_count > STUCK_LIMIT:
                     print("Stuck")
-                    motors.move(True, 100, True)
-                    motors.move(False, 100, True)
+                    v = 70
+                    motors.move(True, v, False)
+                    motors.move(False, v, False)
                     time.sleep(0.5)
-                    motors.move(True, 100, False)
-                    motors.move(False, 100, False)
+                    motors.move(True, v, True)
+                    motors.move(False, v, True)
                     time.sleep(0.5)
-                    motors.move(True, 100, True)
-                    motors.move(False, 100, True)
-                    time.sleep(0.5)
-                    motors.move(True, 100, False)
-                    motors.move(False, 100, False)
+                    motors.move(True, v, False)
+                    motors.move(False, v, False)
                     time.sleep(0.5)
                     stuck_count = 0
                     continue
