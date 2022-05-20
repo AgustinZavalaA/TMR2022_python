@@ -127,8 +127,9 @@ def run(
                     time.sleep(0.5)
 
             if water_hugger_hugger_action == True:
+                w_image = cv2.flip(image[300:360, :], 1)
                 water_left_side, water_right_side = water_hugger_areas_relation(
-                    image[300:360, :],
+                    w_image,
                     hsv_min=water_hsv[0],
                     hsv_max=water_hsv[1],
                     cut_zone=60,
