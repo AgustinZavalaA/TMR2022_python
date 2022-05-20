@@ -69,19 +69,19 @@ def main():
 
 def move_arm(arduino: ArduinoComm) -> None:
     arduino.communicate(data="2")
-    time.sleep(2)
+    time.sleep(1.5)
     pass
 
 
 def move_tray(arduino: ArduinoComm) -> None:
     arduino.communicate(data="3")
-    time.sleep(2)
+    time.sleep(1.5)
     pass
 
 
 def move_claw(arduino: ArduinoComm) -> None:
     arduino.communicate(data="4")
-    time.sleep(3)
+    time.sleep(1.5)
     pass
 
 
