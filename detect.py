@@ -193,7 +193,7 @@ def run(
                     image[150:300, :],
                     hsv_low=(0, 148, 40),
                     hsv_high=(179, 255, 121),
-                    area_threshold=2_000,
+                    area_threshold=500,
                 )
                 if goal_centroid:
                     print("Found the goal\n\n")
