@@ -121,7 +121,7 @@ def run(
                 lost_robot_advance_count += 1
 
                 if front_ultrasonic < 45 or check_if_there_is_water(
-                    image,
+                    image[300:360, :],
                     hsv_min=water_hsv[0],
                     hsv_max=water_hsv[1],
                     threshold=0.5,
