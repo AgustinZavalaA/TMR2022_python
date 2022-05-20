@@ -122,9 +122,9 @@ def run(
                     water_hugger_get_to_water_action = False
                     water_hugger_hugger_action = True
                     print("water_hugger_hugger_action")
-                    # motors.move(True, 70, True)
-                    # motors.move(False, 70, False)
-                    # time.sleep(2)
+                    motors.move(True, 70, False)
+                    motors.move(False, 70, False)
+                    time.sleep(0.5)
 
             if water_hugger_hugger_action == True:
                 water_left_side, water_right_side = water_hugger_areas_relation(
