@@ -113,6 +113,16 @@ def run(
             if water_hugger_get_to_water_action == True:
                 motors.move(True, 60, True)
                 motors.move(False, 60, True)
+                goal_centroid = get_goal_centroid(
+                    image,
+                    hsv_low=(0, 148, 40),
+                    hsv_high=(179, 255, 121),
+                )
+                if goal_centroid > 300:
+                    water_hugger_get_to_water_action = False
+                    water_hugger_hugger_action = True
+                    continue
+
                 if check_if_there_is_water(
                     image[300:360, :],
                     hsv_min=water_hsv[0],
