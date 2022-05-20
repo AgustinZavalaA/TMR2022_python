@@ -38,7 +38,9 @@ def main(
                 print("Error al leer la camara")
                 break
 
-            if check_if_there_is_water(frame[300:360, :], hsv_min, hsv_max):
+            if check_if_there_is_water(
+                frame[300:360, :], hsv_min, hsv_max, threshold=0.3
+            ):
                 motors.stop()
                 print("Water detected")
             else:
