@@ -121,7 +121,7 @@ def run(
                 )
                 if goal_centroid is not None:
                     water_hugger_get_to_water_action = False
-                    water_hugger_hugger_action = True
+                    water_hugger_hugger_action = False
                     continue
 
                 if check_if_there_is_water(
