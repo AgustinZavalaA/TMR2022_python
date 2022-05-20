@@ -122,9 +122,6 @@ def run(
                     water_hugger_get_to_water_action = False
                     water_hugger_hugger_action = True
                     print("water_hugger_hugger_action")
-                    motors.move(True, 70, False)
-                    motors.move(False, 70, False)
-                    time.sleep(1)
                     motors.move(True, 70, True)
                     motors.move(False, 70, False)
                     time.sleep(2)
@@ -141,14 +138,14 @@ def run(
 
                 if water_left_side < 0.7:
                     print("Poca agua en izquierda, moviendose a ella")
-                    motors.move(True, velocity, False)
+                    motors.move(True, 0, False)
                     motors.move(False, velocity, True)
                     continue
 
                 if water_right_side > 10:
                     print("Mucha agua en derecha, moviendose a derecha")
                     motors.move(True, velocity, True)
-                    motors.move(False, velocity, False)
+                    motors.move(False, 0, False)
                     continue
 
                 print("Abrazando awa")
