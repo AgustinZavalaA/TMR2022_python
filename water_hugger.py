@@ -46,6 +46,8 @@ def main(
                 frame[300:360, :], hsv_min, hsv_max, cut_zone=60
             )
 
+            print(f"{water_left_side=} {water_right_side=}")
+
             if water_left_side < 0.7:
                 print("Poca agua en izquierda, moviendose a ella")
                 motors.move(True, velocitiy, False)
