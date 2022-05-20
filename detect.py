@@ -123,26 +123,26 @@ def run(
                     water_hugger_hugger_action = True
                     print("water_hugger_hugger_action")
 
-                # if water_hugger_hugger_action == True:
-                #     water_left_side, water_right_side = water_hugger_areas_relation(
-                #         image[300:360, :], hsv_min, hsv_max, cut_zone=60
-                #     )
+                if water_hugger_hugger_action == True:
+                    water_left_side, water_right_side = water_hugger_areas_relation(
+                        image[300:360, :], hsv_min, hsv_max, cut_zone=60
+                    )
 
-                #     if water_left_side < 0.7:
-                #         print("Poca agua en izquierda, moviendose a ella")
-                #         motors.move(True, velocitiy, False)
-                #         motors.move(False, velocitiy, True)
-                #         continue
+                    if water_left_side < 0.7:
+                        print("Poca agua en izquierda, moviendose a ella")
+                        motors.move(True, velocitiy, False)
+                        motors.move(False, velocitiy, True)
+                        continue
 
-                #     if water_right_side > 0.4:
-                #         print("Mucha agua en derecha, moviendose a derecha")
-                #         motors.move(True, velocitiy, True)
-                #         motors.move(False, velocitiy, False)
-                #         continue
+                    if water_right_side > 0.4:
+                        print("Mucha agua en derecha, moviendose a derecha")
+                        motors.move(True, velocitiy, True)
+                        motors.move(False, velocitiy, False)
+                        continue
 
-                # print("Abrazando awa")
-                # motors.move(True, velocitiy, True)
-                # motors.move(False, velocitiy, True)
+                    print("Abrazando awa")
+                    motors.move(True, velocitiy, True)
+                    motors.move(False, velocitiy, True)
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
                 if label_to_find == "goal":
@@ -228,9 +228,9 @@ def run(
 
                     distance_from_center = image.shape[1] // 2 - goal_centroid[0]
                     print(f"{distance_from_center=}")
+                    water_hugger_hugger_action = False
                 else:
                     found_something_of_interest = False
-                    water_hugger_hugger_action = False
                     continue
             else:
                 if my_detections:
