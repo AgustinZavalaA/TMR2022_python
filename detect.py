@@ -52,7 +52,7 @@ def run(
     number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
-    STUCK_LIMIT = 40
+    STUCK_LIMIT = 25
     stuck_count = 0
     LOST_ROBOT_ADVANCE_LIMIT = 30
     lost_robot_advance_count = 0
