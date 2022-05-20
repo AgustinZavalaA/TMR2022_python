@@ -116,7 +116,7 @@ def run(
                     found_something_of_interest = True
                     continue
 
-                motors.move(True, 70, True)  
+                motors.move(True, 70, True)
                 motors.move(False, 70, True)
                 lost_robot_advance_count += 1
 
@@ -235,11 +235,17 @@ def run(
                 if stuck_count > STUCK_LIMIT:
                     print("Stuck")
                     motors.move(True, 100, True)
-                    motors.move(False, 100, False)
-                    time.sleep(2)
-                    motors.move(True, 100, False)
                     motors.move(False, 100, True)
-                    time.sleep(0.7)
+                    time.sleep(0.5)
+                    motors.move(True, 100, False)
+                    motors.move(False, 100, False)
+                    time.sleep(0.5)
+                    motors.move(True, 100, True)
+                    motors.move(False, 100, True)
+                    time.sleep(0.5)
+                    motors.move(True, 100, False)
+                    motors.move(False, 100, False)
+                    time.sleep(0.5)
                     stuck_count = 0
                     continue
 
