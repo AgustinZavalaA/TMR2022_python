@@ -50,7 +50,7 @@ def run(
     LOST_ROBOT_LIMIT = 70
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 99  # TODO: change to 0
+    number_of_cans_recolected = 0  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
     STUCK_LIMIT = 25
@@ -191,9 +191,9 @@ def run(
             if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
                     image[150:300, :],
-                    hsv_low=(0, 148, 40),
-                    hsv_high=(179, 255, 121),
-                    area_threshold=500,
+                    hsv_low=(0, 100, 55),
+                    hsv_high=(6, 255, 210),
+                    area_threshold=300,
                 )
                 if goal_centroid:
                     print("Found the goal\n\n")
