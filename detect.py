@@ -130,6 +130,7 @@ def run(
                     hsv_max=water_hsv[1],
                     cut_zone=60,
                 )
+                velocity = 70
 
                 if water_left_side < 0.7:
                     print("Poca agua en izquierda, moviendose a ella")
