@@ -117,8 +117,9 @@ def run(
                     image,
                     hsv_low=(0, 148, 40),
                     hsv_high=(179, 255, 121),
+                    area_threshold=300,
                 )
-                if goal_centroid > 300:
+                if goal_centroid is not None:
                     water_hugger_get_to_water_action = False
                     water_hugger_hugger_action = True
                     continue
