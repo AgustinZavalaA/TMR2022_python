@@ -228,8 +228,10 @@ def run(
             if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
                     image[150:300, :],
-                    hsv_low=(0, 100, 55),
-                    hsv_high=(6, 255, 210),
+                    # hsv_low=(0, 100, 55),
+                    # hsv_high=(6, 255, 210),
+                    hsv_low=(0, 148, 40),
+                    hsv_high=(179, 255, 121),
                     area_threshold=300,
                 )
                 if goal_centroid:
