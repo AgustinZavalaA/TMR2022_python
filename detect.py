@@ -16,6 +16,7 @@ from modules.ArduinoSerialComm import ArduinoComm
 from walk_to_water import check_if_there_is_water
 from main import pick_up_can, move_tray
 from goal_centroid import get_goal_centroid
+from water_hugger import water_hugger_areas_relation
 
 
 class my_detection(NamedTuple):
@@ -50,14 +51,17 @@ def run(
     LOST_ROBOT_LIMIT = 70
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 0  # TODO: change to 0
+    number_of_cans_recolected = 99  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
     STUCK_LIMIT = 25
     stuck_count = 0
     LOST_ROBOT_ADVANCE_LIMIT = 15
     lost_robot_advance_count = 0
-    label_to_find = "goal"
+    label_to_find = "black_can"
+    # variables para water hugger
+    water_hugger_get_to_water_action = False
+    water_hugger_hugger_action = False
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -106,7 +110,44 @@ def run(
             my_detections = process_detections(image, detector)
             # print(my_detections, end="\n\n")
 
+            if water_hugger_get_to_water_action == True:
+                motors.move(True, 60, True)
+                motors.move(False, 60, True)
+                if check_if_there_is_water(
+                    image[300:360, :],
+                    hsv_min=water_hsv[0],
+                    hsv_max=water_hsv[1],
+                    threshold=0.5,
+                ):
+                    water_hugger_get_to_water_action = False
+                    water_hugger_hugger_action = True
+                    print("water_hugger_hugger_action")
+
+                # if water_hugger_hugger_action == True:
+                #     water_left_side, water_right_side = water_hugger_areas_relation(
+                #         image[300:360, :], hsv_min, hsv_max, cut_zone=60
+                #     )
+
+                #     if water_left_side < 0.7:
+                #         print("Poca agua en izquierda, moviendose a ella")
+                #         motors.move(True, velocitiy, False)
+                #         motors.move(False, velocitiy, True)
+                #         continue
+
+                #     if water_right_side > 0.4:
+                #         print("Mucha agua en derecha, moviendose a derecha")
+                #         motors.move(True, velocitiy, True)
+                #         motors.move(False, velocitiy, False)
+                #         continue
+
+            print("Abrazando awa")
+            motors.move(True, velocitiy, True)
+            motors.move(False, velocitiy, True)
+
             if lost_robot_count > LOST_ROBOT_LIMIT:
+                if label_to_find == "goal":
+                    water_hugger_get_to_water_action = True
+                    continue
                 print("Lost robot")
                 found_something_of_interest = True
                 if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT or (
@@ -135,22 +176,6 @@ def run(
                     motors.move(True, 50, False)
                     motors.move(False, 50, True)
                     time.sleep(0.3)
-                # if front_ultrasonic < 45:
-                #     motors.stop()
-
-                #     motors.move(True, 100, False)
-                #     motors.move(False, 100, False)
-                #     time.sleep(1)
-
-                #     motors.move(True, 50, True)
-                #     motors.move(False, 50, False)
-                #     time.sleep(1)
-
-                # if check_if_there_is_water(
-                #     img=image, hsv_min=water_hsv[0], hsv_max=water_hsv[1]
-                # ):
-                #     lost_robot_count = 0
-                #     print("Found water")
 
             if not found_something_of_interest:
                 print("Moviendose a la izquierda")
@@ -188,6 +213,9 @@ def run(
             # If there are any detections, get the most important one (black can)
             # select the black can with the highest score
 
+            # water hugger state action get to water
+            water_hugger_get_to_water_action = False
+
             if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
                     image[150:300, :],
@@ -202,6 +230,7 @@ def run(
                     print(f"{distance_from_center=}")
                 else:
                     found_something_of_interest = False
+                    water_hugger_hugger_action = False
                     continue
             else:
                 if my_detections:
