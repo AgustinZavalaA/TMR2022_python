@@ -140,9 +140,9 @@ def run(
                 #         motors.move(False, velocitiy, False)
                 #         continue
 
-            print("Abrazando awa")
-            motors.move(True, velocitiy, True)
-            motors.move(False, velocitiy, True)
+                # print("Abrazando awa")
+                # motors.move(True, velocitiy, True)
+                # motors.move(False, velocitiy, True)
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
                 if label_to_find == "goal":
