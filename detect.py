@@ -145,7 +145,7 @@ def run(
                     motors.move(False, velocity, True)
                     continue
 
-                if water_right_side > 0.4:
+                if water_right_side > 10:
                     print("Mucha agua en derecha, moviendose a derecha")
                     motors.move(True, velocity, True)
                     motors.move(False, velocity, False)
