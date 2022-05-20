@@ -120,6 +120,19 @@ def run(
                 motors.move(False, 50, True)
                 lost_robot_advance_count += 1
 
+                if front_ultrasonic < 45 or check_if_there_is_water(
+                    image,
+                    hsv_min=water_hsv[0],
+                    hsv_max=water_hsv[1],
+                    threshold=0.5,
+                ):
+                    motors.move(True, 50, False)
+                    motors.move(False, 50, False)
+                    time.sleep(1)
+
+                    motors.move(True, 50, False)
+                    motors.move(False, 50, True)
+                    time.sleep(0.3)
                 # if front_ultrasonic < 45:
                 #     motors.stop()
 
