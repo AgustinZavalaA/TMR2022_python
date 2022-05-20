@@ -126,6 +126,7 @@ def run(
                     hsv_max=water_hsv[1],
                     threshold=0.5,
                 ):
+                    print("Casi choco, me voy pa atras")
                     motors.move(True, 50, False)
                     motors.move(False, 50, False)
                     time.sleep(1)
