@@ -47,7 +47,7 @@ def run(
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
-    LOST_ROBOT_LIMIT = 50
+    LOST_ROBOT_LIMIT = 70
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
     number_of_cans_recolected = 0  # TODO: change to 0
@@ -55,7 +55,7 @@ def run(
     found_something_of_interest = True
     STUCK_LIMIT = 25
     stuck_count = 0
-    LOST_ROBOT_ADVANCE_LIMIT = 22
+    LOST_ROBOT_ADVANCE_LIMIT = 15
     lost_robot_advance_count = 0
     label_to_find = "goal"
 
