@@ -54,7 +54,7 @@ def run(
     found_something_of_interest = True
     STUCK_LIMIT = 25
     stuck_count = 0
-    LOST_ROBOT_ADVANCE_LIMIT = 30
+    LOST_ROBOT_ADVANCE_LIMIT = 22
     lost_robot_advance_count = 0
     label_to_find = "goal"
 
@@ -116,8 +116,8 @@ def run(
                     found_something_of_interest = True
                     continue
 
-                motors.move(True, 50, True)
-                motors.move(False, 50, True)
+                motors.move(True, 70, True)  
+                motors.move(False, 70, True)
                 lost_robot_advance_count += 1
 
                 if front_ultrasonic < 45 or check_if_there_is_water(
