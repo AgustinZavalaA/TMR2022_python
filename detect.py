@@ -132,7 +132,7 @@ def run(
                     w_image,
                     hsv_min=water_hsv[0],
                     hsv_max=water_hsv[1],
-                    cut_zone=60,
+                    cut_zone=80,
                 )
                 print(f"{water_left_side=} {water_right_side=}")
                 velocity = 70
