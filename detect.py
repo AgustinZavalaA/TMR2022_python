@@ -166,11 +166,11 @@ def run(
             ):
                 print("There is water\n\n")
                 arduino.communicate(data="7")
-                motors.move(True, 50, False)
-                motors.move(False, 50, False)
+                motors.move(True, 70, False)
+                motors.move(False, 70, False)
                 time.sleep(2.5)
-                motors.move(True, 50, True)
-                motors.move(False, 50, False)
+                motors.move(True, 50, False)
+                motors.move(False, 50, True)
                 time.sleep(1.5)
                 found_something_of_interest = False
                 continue
