@@ -172,6 +172,7 @@ def run(
                 motors.move(True, 50, False)
                 motors.move(False, 50, True)
                 time.sleep(1.5)
+                image = np.zeros((height, width, 3), np.uint8)
                 found_something_of_interest = False
                 continue
 
