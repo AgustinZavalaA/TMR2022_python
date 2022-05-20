@@ -134,19 +134,19 @@ def run(
 
                 if water_left_side < 0.7:
                     print("Poca agua en izquierda, moviendose a ella")
-                    motors.move(True, velocitiy, False)
-                    motors.move(False, velocitiy, True)
+                    motors.move(True, velocity, False)
+                    motors.move(False, velocity, True)
                     continue
 
                 if water_right_side > 0.4:
                     print("Mucha agua en derecha, moviendose a derecha")
-                    motors.move(True, velocitiy, True)
-                    motors.move(False, velocitiy, False)
+                    motors.move(True, velocity, True)
+                    motors.move(False, velocity, False)
                     continue
 
                 print("Abrazando awa")
-                motors.move(True, velocitiy, True)
-                motors.move(False, velocitiy, True)
+                motors.move(True, velocity, True)
+                motors.move(False, velocity, True)
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
                 if label_to_find == "goal":
