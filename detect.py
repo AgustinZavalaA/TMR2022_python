@@ -48,7 +48,7 @@ def run(
     STOPPED_LIMIT = 6
     grab_can_count = 0
     GRAB_CAN_LIMIT = 6
-    LOST_ROBOT_LIMIT = 70
+    LOST_ROBOT_LIMIT = 10  # 70 #TODO change this
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
     number_of_cans_recolected = 99  # TODO: change to 0
