@@ -123,26 +123,29 @@ def run(
                     water_hugger_hugger_action = True
                     print("water_hugger_hugger_action")
 
-                if water_hugger_hugger_action == True:
-                    water_left_side, water_right_side = water_hugger_areas_relation(
-                        image[300:360, :], hsv_min, hsv_max, cut_zone=60
-                    )
+            if water_hugger_hugger_action == True:
+                water_left_side, water_right_side = water_hugger_areas_relation(
+                    image[300:360, :],
+                    hsv_min=water_hsv[0],
+                    hsv_max=water_hsv[1],
+                    cut_zone=60,
+                )
 
-                    if water_left_side < 0.7:
-                        print("Poca agua en izquierda, moviendose a ella")
-                        motors.move(True, velocitiy, False)
-                        motors.move(False, velocitiy, True)
-                        continue
-
-                    if water_right_side > 0.4:
-                        print("Mucha agua en derecha, moviendose a derecha")
-                        motors.move(True, velocitiy, True)
-                        motors.move(False, velocitiy, False)
-                        continue
-
-                    print("Abrazando awa")
-                    motors.move(True, velocitiy, True)
+                if water_left_side < 0.7:
+                    print("Poca agua en izquierda, moviendose a ella")
+                    motors.move(True, velocitiy, False)
                     motors.move(False, velocitiy, True)
+                    continue
+
+                if water_right_side > 0.4:
+                    print("Mucha agua en derecha, moviendose a derecha")
+                    motors.move(True, velocitiy, True)
+                    motors.move(False, velocitiy, False)
+                    continue
+
+                print("Abrazando awa")
+                motors.move(True, velocitiy, True)
+                motors.move(False, velocitiy, True)
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
                 if label_to_find == "goal":
