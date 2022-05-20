@@ -137,7 +137,7 @@ def run(
                     cut_zone=60,
                 )
                 print(f"{water_left_side=} {water_right_side=}")
-                velocity = 70
+                velocity = 30
 
                 if water_left_side < 0.7:
                     print("Poca agua en izquierda, moviendose a ella")
