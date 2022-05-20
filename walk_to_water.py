@@ -39,7 +39,7 @@ def main(
                 break
 
             if check_if_there_is_water(
-                frame[300:360, :], hsv_min, hsv_max, threshold=0.3
+                frame[300:360, :], hsv_min, hsv_max, threshold=0.25
             ):
                 motors.stop()
                 print("Water detected")
