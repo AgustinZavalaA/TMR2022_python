@@ -167,6 +167,7 @@ def run(
                     print("water_hugger_turn_counter > WATER_HUGGER_TURN_LIMIT")
                     motors.move(True, 70, True)
                     motors.move(False, 70, False)
+                    time.sleep(0.5)
                     water_hugger_turn_counter = 0
 
                 # goal_centroid = get_goal_centroid(
