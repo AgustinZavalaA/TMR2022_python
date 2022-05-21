@@ -44,6 +44,7 @@ def run(
     # water hsv
     water_hsv = ((110, 38, 0), (131, 255, 255))  # ((100, 46, 171), (115, 248, 255))
     goal_hsv = ((0, 148, 40), (179, 255, 121))
+    goal_threshold = 300
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 6
@@ -64,7 +65,7 @@ def run(
     water_hugger_get_to_water_action = False
     water_hugger_hugger_action = False  # True  # False
     water_hugger_turn_counter = 0
-    WATER_HUGGER_TURN_LIMIT = 25
+    WATER_HUGGER_TURN_LIMIT = 50
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -116,19 +117,19 @@ def run(
             if water_hugger_get_to_water_action == True:
                 motors.move(True, 60, True)
                 motors.move(False, 60, True)
-                # goal_centroid = get_goal_centroid(
-                #     image[150:360, :],
-                #     # hsv_low=(0, 100, 55),
-                #     # hsv_high=(6, 255, 210),
-                #     hsv_low=water_hsv[0],
-                #     hsv_high=water_hsv[1],
-                #     area_threshold=300,
-                # )
-                # if goal_centroid is not None:
-                #     lost_robot_count = 0
-                #     water_hugger_get_to_water_action = False
-                #     water_hugger_hugger_action = False
-                #     continue
+                goal_centroid = get_goal_centroid(
+                    image[150:360, :],
+                    # hsv_low=(0, 100, 55),
+                    # hsv_high=(6, 255, 210),
+                    hsv_low=water_hsv[0],
+                    hsv_high=water_hsv[1],
+                    area_threshold=300,
+                )
+                if goal_centroid is not None:
+                    lost_robot_count = 0
+                    water_hugger_get_to_water_action = False
+                    water_hugger_hugger_action = False
+                    continue
 
                 if front_ultrasonic < 45:
                     motors.move(True, 60, False)
@@ -170,19 +171,19 @@ def run(
                     time.sleep(2)
                     water_hugger_turn_counter = 0
 
-                # goal_centroid = get_goal_centroid(
-                #     image[150:360, :],
-                #     # hsv_low=(0, 100, 55),
-                #     # hsv_high=(6, 255, 210),
-                #     hsv_low=goal_hsv[0],
-                #     hsv_high=goal_hsv[1],
-                #     area_threshold=300,
-                # )
-                # if goal_centroid is not None:
-                #     lost_robot_count = 0
-                #     water_hugger_get_to_water_action = False
-                #     water_hugger_hugger_action = False
-                #     continue
+                goal_centroid = get_goal_centroid(
+                    image[150:360, :],
+                    # hsv_low=(0, 100, 55),
+                    # hsv_high=(6, 255, 210),
+                    hsv_low=goal_hsv[0],
+                    hsv_high=goal_hsv[1],
+                    area_threshold=300,
+                )
+                if goal_centroid is not None:
+                    lost_robot_count = 0
+                    water_hugger_get_to_water_action = False
+                    water_hugger_hugger_action = False
+                    continue
 
                 print(f"{water_left_side=} {water_right_side=}")
                 velocity = 70
@@ -282,7 +283,7 @@ def run(
                     # hsv_high=(6, 255, 210),
                     hsv_low=goal_hsv[0],
                     hsv_high=goal_hsv[1],
-                    area_threshold=300,
+                    area_threshold=goal_threshold,
                 )
                 if goal_centroid:
                     print("Found the goal\n\n")
