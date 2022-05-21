@@ -53,7 +53,7 @@ def run(
     LOST_ROBOT_LIMIT = 10  # 70 #TODO change this
     lost_robot_count = 0
     MAX_AREA_LIMIT = 5_000
-    number_of_cans_recolected = 99  # 99  # TODO: change to 0
+    number_of_cans_recolected = 99  # TODO: change to 0
     last_vel = 0
     found_something_of_interest = True
     STUCK_LIMIT = 25
@@ -63,7 +63,7 @@ def run(
     label_to_find = "black_can"
     # variables para water hugger
     water_hugger_get_to_water_action = False
-    water_hugger_hugger_action = False  # True  # False
+    water_hugger_hugger_action = True  # False
     water_hugger_turn_counter = 0
     WATER_HUGGER_TURN_LIMIT = 50
 
