@@ -44,7 +44,7 @@ def run(
     # water hsv
     water_hsv = ((110, 38, 101), (131, 228, 255))  # ((100, 46, 171), (115, 248, 255))
     goal_hsv = ((0, 143, 55), (179, 255, 231))  # ((0, 148, 40), (179, 255, 121))
-    goal_threshold = 300
+    goal_threshold = 500
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 6
