@@ -78,13 +78,13 @@ def main(
 
 
 if __name__ == "__main__":
-    # main(
-    #     hsv_min=(110, 38, 0),
-    #     hsv_max=(131, 255, 255),
-    #     visible=False,
-    # )
     main(
-        hsv_min=(96, 40, 88),
-        hsv_max=(112, 243, 255),
+        hsv_min=(110, 38, 0),
+        hsv_max=(131, 255, 255),
         visible=False,
     )
+    # main(
+    #     hsv_min=(96, 40, 88),
+    #     hsv_max=(112, 243, 255),
+    #     visible=False,
+    # )
