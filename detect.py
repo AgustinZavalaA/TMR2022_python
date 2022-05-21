@@ -62,7 +62,7 @@ def run(
     label_to_find = "black_can"
     # variables para water hugger
     water_hugger_get_to_water_action = False
-    water_hugger_hugger_action = False
+    water_hugger_hugger_action = True  # False
     water_hugger_turn_counter = 0
     WATER_HUGGER_TURN_LIMIT = 10
 
