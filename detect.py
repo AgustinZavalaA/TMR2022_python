@@ -205,9 +205,9 @@ def run(
                 motors.move(False, velocity, True)
 
             if lost_robot_count > LOST_ROBOT_LIMIT:
-                if label_to_find == "goal":
-                    # water_hugger_get_to_water_action = True
-                    continue
+                # if label_to_find == "goal":
+                #     # water_hugger_get_to_water_action = True
+                #     continue
                 print("Lost robot")
                 found_something_of_interest = True
                 if lost_robot_advance_count > LOST_ROBOT_ADVANCE_LIMIT or (
