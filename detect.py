@@ -64,7 +64,7 @@ def run(
     water_hugger_get_to_water_action = False
     water_hugger_hugger_action = True  # False
     water_hugger_turn_counter = 0
-    WATER_HUGGER_TURN_LIMIT = 10
+    WATER_HUGGER_TURN_LIMIT = 30
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -167,7 +167,7 @@ def run(
                     print("water_hugger_turn_counter > WATER_HUGGER_TURN_LIMIT")
                     motors.move(True, 70, True)
                     motors.move(False, 70, False)
-                    time.sleep(0.5)
+                    time.sleep(2)
                     water_hugger_turn_counter = 0
 
                 # goal_centroid = get_goal_centroid(
