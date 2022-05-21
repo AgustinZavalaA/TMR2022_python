@@ -113,18 +113,19 @@ def run(
             if water_hugger_get_to_water_action == True:
                 motors.move(True, 60, True)
                 motors.move(False, 60, True)
-                goal_centroid = get_goal_centroid(
-                    image[150:300, :],
-                    # hsv_low=(0, 100, 55),
-                    # hsv_high=(6, 255, 210),
-                    hsv_low=(0, 148, 40),
-                    hsv_high=(179, 255, 121),
-                    area_threshold=300,
-                )
-                if goal_centroid is not None:
-                    water_hugger_get_to_water_action = False
-                    water_hugger_hugger_action = False
-                    continue
+                # goal_centroid = get_goal_centroid(
+                #     image[150:360, :],
+                #     # hsv_low=(0, 100, 55),
+                #     # hsv_high=(6, 255, 210),
+                #     hsv_low=(0, 148, 40),
+                #     hsv_high=(179, 255, 121),
+                #     area_threshold=300,
+                # )
+                # if goal_centroid is not None:
+
+                #     water_hugger_get_to_water_action = False
+                #     water_hugger_hugger_action = False
+                #     continue
 
                 if check_if_there_is_water(
                     image[300:360, :],
@@ -132,6 +133,7 @@ def run(
                     hsv_max=water_hsv[1],
                     threshold=0.5,
                 ):
+                    lost_robot_count = 0
                     water_hugger_get_to_water_action = False
                     water_hugger_hugger_action = True
                     print("water_hugger_hugger_action")
@@ -240,7 +242,7 @@ def run(
 
             if number_of_cans_recolected >= 3:
                 goal_centroid = get_goal_centroid(
-                    image[150:300, :],
+                    image[150:360, :],
                     # hsv_low=(0, 100, 55),
                     # hsv_high=(6, 255, 210),
                     hsv_low=(0, 148, 40),
