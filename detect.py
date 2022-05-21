@@ -116,19 +116,19 @@ def run(
             if water_hugger_get_to_water_action == True:
                 motors.move(True, 60, True)
                 motors.move(False, 60, True)
-                goal_centroid = get_goal_centroid(
-                    image[150:360, :],
-                    # hsv_low=(0, 100, 55),
-                    # hsv_high=(6, 255, 210),
-                    hsv_low=water_hsv[0],
-                    hsv_high=water_hsv[1],
-                    area_threshold=300,
-                )
-                if goal_centroid is not None:
-                    lost_robot_count = 0
-                    water_hugger_get_to_water_action = False
-                    water_hugger_hugger_action = False
-                    continue
+                # goal_centroid = get_goal_centroid(
+                #     image[150:360, :],
+                #     # hsv_low=(0, 100, 55),
+                #     # hsv_high=(6, 255, 210),
+                #     hsv_low=water_hsv[0],
+                #     hsv_high=water_hsv[1],
+                #     area_threshold=300,
+                # )
+                # if goal_centroid is not None:
+                #     lost_robot_count = 0
+                #     water_hugger_get_to_water_action = False
+                #     water_hugger_hugger_action = False
+                #     continue
 
                 if check_if_there_is_water(
                     image[300:360, :],
@@ -161,19 +161,19 @@ def run(
                     motors.move(False, 70, False)
                     water_hugger_turn_counter = 0
 
-                goal_centroid = get_goal_centroid(
-                    image[150:360, :],
-                    # hsv_low=(0, 100, 55),
-                    # hsv_high=(6, 255, 210),
-                    hsv_low=goal_hsv[0],
-                    hsv_high=goal_hsv[1],
-                    area_threshold=300,
-                )
-                if goal_centroid is not None:
-                    lost_robot_count = 0
-                    water_hugger_get_to_water_action = False
-                    water_hugger_hugger_action = False
-                    continue
+                # goal_centroid = get_goal_centroid(
+                #     image[150:360, :],
+                #     # hsv_low=(0, 100, 55),
+                #     # hsv_high=(6, 255, 210),
+                #     hsv_low=goal_hsv[0],
+                #     hsv_high=goal_hsv[1],
+                #     area_threshold=300,
+                # )
+                # if goal_centroid is not None:
+                #     lost_robot_count = 0
+                #     water_hugger_get_to_water_action = False
+                #     water_hugger_hugger_action = False
+                #     continue
 
                 print(f"{water_left_side=} {water_right_side=}")
                 velocity = 70
