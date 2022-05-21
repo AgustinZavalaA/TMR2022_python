@@ -114,7 +114,9 @@ def run(
                 motors.move(True, 60, True)
                 motors.move(False, 60, True)
                 goal_centroid = get_goal_centroid(
-                    image,
+                    image[150:300, :],
+                    # hsv_low=(0, 100, 55),
+                    # hsv_high=(6, 255, 210),
                     hsv_low=(0, 148, 40),
                     hsv_high=(179, 255, 121),
                     area_threshold=300,
