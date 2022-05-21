@@ -63,6 +63,8 @@ def run(
     # variables para water hugger
     water_hugger_get_to_water_action = False
     water_hugger_hugger_action = False
+    water_hugger_turn_counter = 0
+    WATER_HUGGER_TURN_LIMIT = 10
 
     # Start the motors and variables for motor control and arduino communication
     motors = Motors()
@@ -143,6 +145,8 @@ def run(
                     time.sleep(0.5)
 
             if water_hugger_hugger_action == True:
+                water_hugger_turn_counter += 1
+
                 w_image = cv2.flip(image[300:360, :], 1)
                 water_left_side, water_right_side = water_hugger_areas_relation(
                     w_image,
@@ -150,6 +154,12 @@ def run(
                     hsv_max=water_hsv[1],
                     cut_zone=80,
                 )
+
+                if water_hugger_turn_counter > WATER_HUGGER_TURN_LIMIT:
+                    print("water_hugger_turn_counter > WATER_HUGGER_TURN_LIMIT")
+                    motors.move(True, 70, True)
+                    motors.move(False, 70, False)
+                    water_hugger_turn_counter = 0
 
                 goal_centroid = get_goal_centroid(
                     image[150:360, :],
