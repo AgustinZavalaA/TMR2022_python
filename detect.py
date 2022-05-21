@@ -42,7 +42,8 @@ def run(
     score_threshold: float,
 ) -> None:
     # water hsv
-    water_hsv = ((100, 46, 171), (115, 248, 255))
+    water_hsv = ((110, 38, 0), (131, 255, 255))  # ((100, 46, 171), (115, 248, 255))
+    goal_hsv = ((0, 148, 40), (179, 255, 121))
     # variables for the program
     stopped_count = 0
     STOPPED_LIMIT = 6
@@ -117,8 +118,8 @@ def run(
                     image[150:360, :],
                     # hsv_low=(0, 100, 55),
                     # hsv_high=(6, 255, 210),
-                    hsv_low=(0, 148, 40),
-                    hsv_high=(179, 255, 121),
+                    hsv_low=water_hsv[0],
+                    hsv_high=water_hsv[1],
                     area_threshold=300,
                 )
                 if goal_centroid is not None:
@@ -149,13 +150,13 @@ def run(
                     hsv_max=water_hsv[1],
                     cut_zone=80,
                 )
-                
+
                 goal_centroid = get_goal_centroid(
                     image[150:360, :],
                     # hsv_low=(0, 100, 55),
                     # hsv_high=(6, 255, 210),
-                    hsv_low=(0, 148, 40),
-                    hsv_high=(179, 255, 121),
+                    hsv_low=goal_hsv[0],
+                    hsv_high=goal_hsv[1],
                     area_threshold=300,
                 )
                 if goal_centroid is not None:
@@ -163,7 +164,7 @@ def run(
                     water_hugger_get_to_water_action = False
                     water_hugger_hugger_action = False
                     continue
-                
+
                 print(f"{water_left_side=} {water_right_side=}")
                 velocity = 70
 
@@ -260,8 +261,8 @@ def run(
                     image[150:360, :],
                     # hsv_low=(0, 100, 55),
                     # hsv_high=(6, 255, 210),
-                    hsv_low=(0, 148, 40),
-                    hsv_high=(179, 255, 121),
+                    hsv_low=goal_hsv[0],
+                    hsv_high=goal_hsv[1],
                     area_threshold=300,
                 )
                 if goal_centroid:
