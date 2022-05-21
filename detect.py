@@ -130,6 +130,14 @@ def run(
                 #     water_hugger_hugger_action = False
                 #     continue
 
+                if front_ultrasonic < 45:
+                    motors.move(True, 60, False)
+                    motors.move(False, 60, False)
+                    time.sleep(1)
+                    motors.move(True, 60, False)
+                    motors.move(False, 60, True)
+                    time.sleep(1)
+
                 if check_if_there_is_water(
                     image[300:360, :],
                     hsv_min=water_hsv[0],
