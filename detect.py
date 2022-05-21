@@ -149,6 +149,21 @@ def run(
                     hsv_max=water_hsv[1],
                     cut_zone=80,
                 )
+                
+                goal_centroid = get_goal_centroid(
+                    image[150:360, :],
+                    # hsv_low=(0, 100, 55),
+                    # hsv_high=(6, 255, 210),
+                    hsv_low=(0, 148, 40),
+                    hsv_high=(179, 255, 121),
+                    area_threshold=300,
+                )
+                if goal_centroid is not None:
+                    lost_robot_count = 0
+                    water_hugger_get_to_water_action = False
+                    water_hugger_hugger_action = False
+                    continue
+                
                 print(f"{water_left_side=} {water_right_side=}")
                 velocity = 70
 
