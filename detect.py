@@ -123,7 +123,7 @@ def run(
                     # hsv_high=(6, 255, 210),
                     hsv_low=water_hsv[0],
                     hsv_high=water_hsv[1],
-                    area_threshold=300,
+                    area_threshold=goal_threshold,
                 )
                 if goal_centroid is not None:
                     lost_robot_count = 0
@@ -177,7 +177,7 @@ def run(
                     # hsv_high=(6, 255, 210),
                     hsv_low=goal_hsv[0],
                     hsv_high=goal_hsv[1],
-                    area_threshold=300,
+                    area_threshold=goal_threshold,
                 )
                 if goal_centroid is not None:
                     lost_robot_count = 0
